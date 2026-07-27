@@ -1,0 +1,24 @@
+{
+  "name": "motionsite-clone",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Motion-led site rebuilds. Each study is its own workspace under web/.",
+  "workspaces": [
+    "web/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "preview": "turbo run preview",
+    "clean": "turbo run clean --continue && rm -rf node_modules .turbo"
+  },
+  "devDependencies": {
+    "turbo": "^2.10.7"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "npm@11.12.1"
+}

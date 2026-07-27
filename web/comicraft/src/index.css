@@ -1,0 +1,88 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Palette — sumi ink, fog and blood red */
+  --color-ink: #050505;
+  --color-ink-soft: #0d0d0e;
+  --color-ash: #16161a;
+  --color-fog: #b9b9bd;
+  --color-bone: #f2efe9;
+  --color-blood: #d10a10;
+  --color-blood-deep: #8c0509;
+  --color-blood-glow: #ff2b2b;
+
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-sans: 'Jost', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-blood);
+    color: var(--color-bone);
+  }
+}
+
+@layer utilities {
+  /* Vertical rail label on the left edge of the hero */
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+}
+
+/* Motion primitives — GSAP animates from these initial states.
+   With reduced motion preferred, everything stays put and visible. */
+.reveal {
+  opacity: 0;
+}
+
+/* Film grain. An inline SVG turbulence tile rather than a bitmap: a few
+   hundred bytes, no extra request, and it scales to any viewport. */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* The scroll cue's travelling tick. */
+.scroll-tick {
+  animation: scroll-tick 2.4s var(--ease-silk) infinite;
+}
+
+@keyframes scroll-tick {
+  0% {
+    transform: translateY(-100%);
+  }
+  55%,
+  100% {
+    transform: translateY(1000%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .scroll-tick {
+    animation: none;
+  }
+}

@@ -1,0 +1,18 @@
+node_modules/
+.turbo/
+dist/
+build/
+
+# Local env — never commit credentials (Cloudinary API secret lives here)
+.env
+.env.*
+!.env.example
+
+# Master art, kept in Cloudinary rather than git
+assets-src/
+
+.DS_Store
+*.log
+npm-debug.log*
+.vscode/
+.idea/

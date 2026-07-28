@@ -63,15 +63,43 @@ it when the source spec changes.
 Studies with `prompt: null` render the button disabled and labelled rather than
 hiding it, so the gap is visible instead of silently absent.
 
+## Live demos
+
+Each study runs for real, both embedded in the modal and full screen.
+
+`npm run build:site` (from the repo root) builds the storefront, then builds
+every study **into** `web/storefront/dist/studies/<slug>/` with a matching
+`--base`. One tree, one deploy, no cross-origin anything:
+
+```
+web/storefront/dist/
+  index.html                 the shop
+  studies/comicraft/         live
+  studies/vision-reveal/     live
+  studies/prmpt/             live
+```
+
+The `--base` is the whole trick. Vite rewrites its own emitted asset URLs, but
+it will not touch an absolute path sitting inside a JS string or an inline
+`style` attribute — so anything hard-coded to `/assets/…` 404s the moment it is
+served from a subdirectory. Both offenders are fixed at the source:
+`comicraft` builds its paths from `import.meta.env.BASE_URL`, and
+`vision-reveal` references its frames relatively.
+
+In the modal the demo is **opt-in** — the still is shown until you press *Run it
+live*, because `prmpt` alone pulls about 8 MB of video and nobody should pay
+that just for opening a panel.
+
+`demoUrl()` in `src/data/studies.ts` resolves to `/studies/<slug>/` in a
+production build, and to `localhost:5301–5303` in dev. Those dev ports only
+answer while `npx turbo run dev` is running, and they match the ports in
+`scripts/build-site.sh` and the preview capture script.
+
 ## What is deliberately not wired
 
-- **Checkout.** Every pricing and study CTA opens a `mailto:`. No payment
-  processor, no card fields, nothing that pretends to take money.
-- **Live demos.** `demo` is `null` on every study until each workspace has a
-  deployed home. The modal states that plainly instead of dead-linking.
-
-Both are single-field changes in `studies.ts` / `site.ts` once the backing
-infrastructure exists.
+**Checkout.** Every pricing and study CTA opens a `mailto:`. No payment
+processor, no card fields, nothing that pretends to take money. That is a
+single change in `site.ts` once a real processor exists.
 
 ## Deep links
 

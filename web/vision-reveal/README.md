@@ -56,9 +56,17 @@ is attached, so the spotlight never runs at all.
 ## Assets
 
 `public/assets/goku-base.png` and `goku-ssj.jpg` are the shipped frames, copied
-verbatim into `dist/assets/` at build time. They're referenced as root-absolute
-paths (`/assets/…`) because that's how Vite's `public/` directory resolves —
-relative paths build with a warning and only work by accident.
+verbatim into `dist/assets/` at build time.
+
+They are referenced **relatively** (`assets/…`, no leading slash) so the page
+survives being served from a subpath — the storefront mounts this build at
+`/studies/vision-reveal/`, and a root-absolute path would look for the frames
+at the domain root and 404.
+
+Vite prints a `didn't resolve at build time` warning for both. That is the
+correct outcome here, not a problem to fix: these are `public/` files that
+should be left alone and resolved against the document at runtime. Switching
+them to `/assets/…` silences the warning and breaks the subpath deploy.
 
 The `?v=3` query on both is a cache-buster from the original standalone
 project. It's harmless; bump it if you re-export a frame.

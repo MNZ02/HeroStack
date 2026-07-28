@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import type { Study } from '../data/studies'
+import { demoUrl } from '../data/studies'
 import { SITE } from '../site'
 
 type Props = { study: Study | null; onClose: () => void }
@@ -9,8 +10,14 @@ type CopyState = 'idle' | 'working' | 'copied' | 'failed'
 
 export default function StudyModal({ study, onClose }: Props) {
   const [copy, setCopy] = useState<CopyState>('idle')
+  const [live, setLive] = useState(false)
 
-  useEffect(() => setCopy('idle'), [study?.slug])
+  useEffect(() => {
+    setCopy('idle')
+    // The live frame is opt-in per study — prmpt alone pulls 8 MB of video,
+    // which nobody should pay for just by opening a panel.
+    setLive(false)
+  }, [study?.slug])
 
   // Escape closes, and the page behind must not scroll while this is up.
   useEffect(() => {
@@ -87,11 +94,49 @@ export default function StudyModal({ study, onClose }: Props) {
               ×
             </button>
 
-            <img
-              src={study.preview}
-              alt={`${study.name} hero`}
-              className="max-h-[42vh] w-full border-b border-line object-cover object-top"
-            />
+            <div className="relative h-[42vh] min-h-[260px] border-b border-line bg-ink">
+              {live ? (
+                <iframe
+                  src={demoUrl(study.slug)}
+                  title={`${study.name} live demo`}
+                  loading="lazy"
+                  className="h-full w-full"
+                  // Same-origin in production (the studies are mounted under
+                  // this domain), so scripts are allowed but nothing else.
+                  sandbox="allow-scripts allow-same-origin"
+                />
+              ) : (
+                <>
+                  <img
+                    src={study.preview}
+                    alt={`${study.name} hero`}
+                    className="h-full w-full object-cover object-top"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setLive(true)}
+                    className="absolute inset-0 flex cursor-pointer items-center justify-center bg-ink/30 opacity-0 transition-opacity hover:opacity-100"
+                  >
+                    <span className="rounded-full bg-paper px-6 py-3 text-[14px] font-600 text-ink">
+                      ▶ Run it live
+                    </span>
+                  </button>
+                </>
+              )}
+
+              {live && (
+                <button
+                  type="button"
+                  onClick={() => setLive(false)}
+                  // Parked beside the close button rather than in a corner of
+                  // the frame: every study fills its own corners, and this is
+                  // storefront chrome, not part of the demo.
+                  className="absolute top-4 right-16 z-10 cursor-pointer rounded-full bg-ink/80 px-3.5 py-1.5 text-[12px] font-500 backdrop-blur-md transition-colors hover:bg-ink"
+                >
+                  Show still
+                </button>
+              )}
+            </div>
 
             <div className="grid gap-8 p-6 sm:p-9 md:grid-cols-[1.4fr_1fr]">
               <div>
@@ -150,20 +195,14 @@ export default function StudyModal({ study, onClose }: Props) {
                     {study.prompt ? copyLabel : 'Build spec in progress'}
                   </button>
 
-                  {study.demo ? (
-                    <a
-                      href={study.demo}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="rounded-full px-6 py-3 text-center text-[14px] font-500 text-muted transition-colors hover:text-paper"
-                    >
-                      Open live demo ↗
-                    </a>
-                  ) : (
-                    <span className="px-6 py-3 text-center text-[13px] text-muted">
-                      Live demo goes up with the next deploy
-                    </span>
-                  )}
+                  <a
+                    href={demoUrl(study.slug)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-full px-6 py-3 text-center text-[14px] font-500 text-muted transition-colors hover:text-paper"
+                  >
+                    Open full screen ↗
+                  </a>
                 </div>
               </div>
             </div>

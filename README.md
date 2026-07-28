@@ -20,7 +20,13 @@ npm install          # once, at the root — workspaces hoist from here
 npm run dev          # every app in the repo
 npm run build
 npm run lint
+npm run build:site   # the deployable tree: storefront + every study, live
 ```
+
+`build:site` is the one that produces something you can actually ship. It builds
+the storefront, then builds each study into `web/storefront/dist/studies/<slug>/`
+with a matching `--base`, so the whole thing deploys as a single static tree and
+the storefront's live demos resolve same-origin.
 
 To work on one project, filter it:
 

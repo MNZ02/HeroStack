@@ -13,10 +13,28 @@ export type Study = {
   tier: 'free' | 'premium'
   /** Path under `public/prompts/`, or null while the spec is still being written. */
   prompt: string | null
-  /** Where the study is deployed. Null until each workspace has a home. */
-  demo: string | null
   added: string
 }
+
+/**
+ * Where each study is reachable.
+ *
+ * In a production build `npm run build:site` mounts every study inside the
+ * storefront's own dist at `/studies/<slug>/`, so a relative path is all that
+ * is needed and the demos deploy as one tree.
+ *
+ * `npm run dev` has no such tree — each study is its own Vite server. These
+ * ports match `scripts/build-site.sh` and the preview capture script, and only
+ * resolve while `npx turbo run dev` is running.
+ */
+const DEV_PORTS: Record<string, number> = {
+  comicraft: 5301,
+  'vision-reveal': 5302,
+  prmpt: 5303,
+}
+
+export const demoUrl = (slug: string) =>
+  import.meta.env.DEV ? `http://localhost:${DEV_PORTS[slug]}/` : `/studies/${slug}/`
 
 export const STUDIES: readonly Study[] = [
   {
@@ -32,7 +50,6 @@ export const STUDIES: readonly Study[] = [
     technique: ['Cursor-scrubbed video', 'Scroll panel', 'mix-blend-mode'],
     tier: 'premium',
     prompt: null,
-    demo: null,
     added: '2026-07-28',
   },
   {
@@ -48,7 +65,6 @@ export const STUDIES: readonly Study[] = [
     technique: ['Cursor lens', 'Registered reveal', 'Parallax'],
     tier: 'premium',
     prompt: '/prompts/comicraft.md',
-    demo: null,
     added: '2026-07-27',
   },
   {
@@ -64,7 +80,6 @@ export const STUDIES: readonly Study[] = [
     technique: ['Mask spotlight', 'CSS-only splash', 'Word reveal'],
     tier: 'free',
     prompt: null,
-    demo: null,
     added: '2026-07-27',
   },
 ]

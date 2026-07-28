@@ -1,0 +1,18 @@
+{
+  "name": "vision-reveal",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Saiyan Studio — ki-charged scroll & power reveal study.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "clean": "rm -rf dist .turbo"
+  },
+  "devDependencies": {
+    "oxlint": "^1.71.0",
+    "vite": "^8.1.1"
+  }
+}

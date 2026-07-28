@@ -5,10 +5,10 @@
   "description": "Saiyan Studio — ki-charged scroll & power reveal study.",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5302 --strictPort",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview",
+    "preview": "vite preview --port 5402 --strictPort",
     "clean": "rm -rf dist .turbo"
   },
   "devDependencies": {

@@ -23,9 +23,13 @@ export type Study = {
  * storefront's own dist at `/studies/<slug>/`, so a relative path is all that
  * is needed and the demos deploy as one tree.
  *
- * `npm run dev` has no such tree — each study is its own Vite server. These
- * ports match `scripts/build-site.sh` and the preview capture script, and only
- * resolve while `npx turbo run dev` is running.
+ * `npm run dev` has no such tree — each study is its own Vite server. Those
+ * ports are pinned with `--strictPort` in each workspace's `dev` script, which
+ * is what makes this map true; left on Vite's default the servers land on
+ * 5173+ in whatever order they boot and none of these would answer.
+ *
+ * So: change a port here, change it in that workspace's package.json too.
+ * They only resolve while `npm run dev` is running.
  */
 const DEV_PORTS: Record<string, number> = {
   comicraft: 5301,

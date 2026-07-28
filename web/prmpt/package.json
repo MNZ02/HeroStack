@@ -5,10 +5,10 @@
   "description": "prmpt — scroll-driven fashion archive: cursor-scrubbed video hero into a scattered gallery panel.",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5303 --strictPort",
     "build": "tsc --noEmit && vite build",
     "lint": "oxlint",
-    "preview": "vite preview",
+    "preview": "vite preview --port 5403 --strictPort",
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {

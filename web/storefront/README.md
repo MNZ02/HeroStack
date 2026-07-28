@@ -91,9 +91,24 @@ live*, because `prmpt` alone pulls about 8 MB of video and nobody should pay
 that just for opening a panel.
 
 `demoUrl()` in `src/data/studies.ts` resolves to `/studies/<slug>/` in a
-production build, and to `localhost:5301–5303` in dev. Those dev ports only
-answer while `npx turbo run dev` is running, and they match the ports in
-`scripts/build-site.sh` and the preview capture script.
+production build, and to a fixed localhost port in dev:
+
+| Workspace | dev | preview |
+| --- | --- | --- |
+| storefront | 5300 | 5400 |
+| comicraft | 5301 | 5401 |
+| vision-reveal | 5302 | 5402 |
+| prmpt | 5303 | 5403 |
+
+Those are pinned with `--strictPort` in each workspace's `dev` script, and the
+pinning is what makes the map in `studies.ts` true. On Vite's default the four
+servers race for 5173 upward and land in boot order, so the demo links would
+point at whatever happened to answer — or nothing. `--strictPort` also means a
+clash fails loudly instead of drifting silently, which is the failure mode that
+made this worth pinning.
+
+Change a port and you have to change it in two places: that workspace's
+`package.json` and `DEV_PORTS`. They only answer while `npm run dev` is up.
 
 ## What is deliberately not wired
 

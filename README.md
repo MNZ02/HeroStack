@@ -28,6 +28,16 @@ the storefront, then builds each study into `web/storefront/dist/studies/<slug>/
 with a matching `--base`, so the whole thing deploys as a single static tree and
 the storefront's live demos resolve same-origin.
 
+Dev ports are pinned with `--strictPort` so the storefront's demo links have
+something predictable to point at — **the shop is on 5300**, not Vite's default:
+
+| | dev | preview |
+| --- | --- | --- |
+| `storefront` | 5300 | 5400 |
+| `comicraft` | 5301 | 5401 |
+| `vision-reveal` | 5302 | 5402 |
+| `prmpt` | 5303 | 5403 |
+
 To work on one project, filter it:
 
 ```bash

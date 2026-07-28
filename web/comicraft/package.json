@@ -5,10 +5,10 @@
   "description": "Comicraft Studio — samurai-themed comic designer & illustrator portfolio.",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5301 --strictPort",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview",
+    "preview": "vite preview --port 5401 --strictPort",
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {

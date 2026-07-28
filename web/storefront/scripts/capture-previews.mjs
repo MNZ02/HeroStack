@@ -5,9 +5,8 @@
  * somewhere flattering before the shutter — a cold screenshot of these pages
  * shows the *un*-revealed state, which is the boring half.
  *
- *   1. start the studies:  npx turbo run dev
- *   2. point PORTS below at them if they differ
- *   3. npm run previews --workspace=storefront
+ *   1. npm run dev            (studies pin themselves to 5301-5303)
+ *   2. npm run previews --workspace=storefront
  *
  * Needs puppeteer-core and a local Chrome; neither is a dependency of this
  * workspace, since previews are regenerated rarely and by hand.

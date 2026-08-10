@@ -35,12 +35,28 @@ const DEV_PORTS: Record<string, number> = {
   comicraft: 5301,
   'vision-reveal': 5302,
   prmpt: 5303,
+  aeris: 5304,
 }
 
 export const demoUrl = (slug: string) =>
   import.meta.env.DEV ? `http://localhost:${DEV_PORTS[slug]}/` : `/studies/${slug}/`
 
 export const STUDIES: readonly Study[] = [
+  {
+    slug: 'aeris',
+    name: 'Aeris — Respirator',
+    category: 'Product',
+    tagline: 'A head turn you steer with the cursor, held one frame at a time.',
+    about:
+      'The same cursor-to-position idea as prmpt, built the other way round. Instead of seeking a video — whose single keyframe made every seek decode from the start, capping the scrub near 8fps — the turn ships as thirty webp stills, and the pointer picks one by index. Only one direction of footage is downloaded: the subject is near-symmetric on a flat ground, so the opposite turn is the same frames under scaleX(-1).',
+    preview: '/previews/aeris.jpg',
+    weight: '62 KB gzip + 768 KB frames',
+    stack: ['React 19', 'TypeScript', 'Tailwind 4', 'No animation library'],
+    technique: ['Frame-addressed scrub', 'Mirrored sequence', 'Self-hosted assets'],
+    tier: 'premium',
+    prompt: null,
+    added: '2026-08-10',
+  },
   {
     slug: 'prmpt',
     name: 'prmpt — Archive',

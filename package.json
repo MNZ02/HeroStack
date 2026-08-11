@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
+    "build:site": "./scripts/build-site.sh",
     "lint": "turbo run lint",
     "preview": "turbo run preview",
     "clean": "turbo run clean --continue && rm -rf node_modules .turbo"

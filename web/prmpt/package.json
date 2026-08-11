@@ -1,19 +1,21 @@
 {
-  "name": "comicraft",
+  "name": "prmpt",
   "private": true,
   "version": "0.0.0",
-  "description": "Comicraft Studio — samurai-themed comic designer & illustrator portfolio.",
+  "description": "prmpt — scroll-driven fashion archive: cursor-scrubbed video hero into a scattered gallery panel.",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 5301 --strictPort",
-    "build": "vite build",
+    "dev": "vite --port 5303 --strictPort",
+    "build": "tsc --noEmit && vite build",
     "lint": "oxlint",
-    "preview": "vite preview --port 5401 --strictPort",
+    "preview": "vite preview --port 5403 --strictPort",
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@tailwindcss/vite": "^4.3.3",
     "gsap": "^3.15.0",
+    "motion": "^12.38.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwindcss": "^4.3.3"
@@ -23,6 +25,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
     "oxlint": "^1.71.0",
+    "typescript": "^5.9.3",
     "vite": "^8.1.1"
   }
 }

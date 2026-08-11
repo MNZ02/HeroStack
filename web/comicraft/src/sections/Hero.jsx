@@ -7,10 +7,17 @@ import { gsap, prefersReducedMotion, trackPointer } from '../lib/motion'
 
 // Served straight out of /public — no bundler rewrite, no base64 inlining.
 // WebP for everyone current, JPEG for the long tail.
-const HERO_BG = '/assets/hero-bg.webp'
-const HERO_BG_JPG = '/assets/hero-bg.jpg'
-const HERO_BG_BNW = '/assets/hero-bg-bnw.webp'
-const HERO_BG_BNW_JPG = '/assets/hero-bg-bnw.jpg'
+//
+// BASE_URL, not a leading slash: the storefront serves this build from
+// /studies/comicraft/, and Vite does not rewrite absolute paths that live
+// inside JS strings. It is '/' for a normal build, so the root case is
+// unchanged.
+const asset = (name) => `${import.meta.env.BASE_URL}assets/${name}`
+
+const HERO_BG = asset('hero-bg.webp')
+const HERO_BG_JPG = asset('hero-bg.jpg')
+const HERO_BG_BNW = asset('hero-bg-bnw.webp')
+const HERO_BG_BNW_JPG = asset('hero-bg-bnw.jpg')
 
 /** A headline line that slides up out of its own mask. */
 function MaskedLine({ children }) {

@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+html,
+body {
+  margin: 0;
+  background: #fff;
+  /* The stage is `position: fixed` and the page is exactly one screen tall;
+     without this an iOS URL bar collapse can still rubber-band the document. */
+  overscroll-behavior: none;
+}
+
+/* The scrub is a pointer affordance with no motion of its own — it only ever
+   moves because the reader moved. What does animate on its own is the stage
+   fading in once the frames have decoded, so that is what gets suppressed. */
+@media (prefers-reduced-motion: reduce) {
+  #frame-stage {
+    transition: none !important;
+  }
+}

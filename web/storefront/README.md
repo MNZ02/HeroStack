@@ -19,8 +19,8 @@ Two files, and nothing else needs editing to change what the site says:
 | `src/data/studies.ts` | Every study — copy, stack, weight, tier, preview path |
 | `src/site.ts` | Brand name, blurb, contact, pricing tiers |
 
-`HEROSTACK` is a working title sitting in `site.ts`, not a decision. Rename it
-there and it changes everywhere.
+`HEROSTACK` is the brand, and it lives in `site.ts` alone — change it there and
+it changes everywhere.
 
 Adding a study is: append to `STUDIES`, drop a preview in `public/previews/`,
 done. Categories and the stats row derive themselves from the array, so they

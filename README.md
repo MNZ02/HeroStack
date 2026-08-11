@@ -1,8 +1,8 @@
-# motionsite-clone
+# HeroStack
 
-A Turborepo of motion-led site rebuilds. Each study is a standalone workspace
-under `web/`, plus one storefront that sells them; nothing is shared between the
-studies yet.
+A Turborepo of motion-led hero sections, each one a standalone workspace under
+`web/`, plus a storefront that sells them. Every study ships with its own
+assets and its own build spec; nothing is shared between the studies yet.
 
 ```
 web/

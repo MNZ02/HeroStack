@@ -2,7 +2,7 @@
 
 Samurai / Japan-themed portfolio landing page. Vite + React 19, Tailwind v4, GSAP.
 
-A workspace of the [motionsite-clone](../../README.md) monorepo. Install from
+A workspace of the [HeroStack](../../README.md) monorepo. Install from
 the repo root, not here — npm hoists the dependencies.
 
 ```bash

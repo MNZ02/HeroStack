@@ -1,6 +1,7 @@
 /**
  * Everything brand-shaped lives here so renaming the shop is a one-file edit.
- * `HEROSTACK` is a working title, not a decision.
+ * The repo, the storefront and the domain all read HeroStack; `HEROSTACK` is
+ * the wordmark casing used in the UI.
  */
 export const SITE = {
   name: 'HEROSTACK',

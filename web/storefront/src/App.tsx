@@ -7,6 +7,7 @@ import Footer from './components/Footer'
 import StudyCard from './components/StudyCard'
 import StudyModal from './components/StudyModal'
 import { CATEGORIES, STUDIES } from './data/studies'
+import { Analytics } from '@vercel/analytics/react'
 
 const TIERS = ['All', 'Free', 'Premium'] as const
 
@@ -118,6 +119,7 @@ export default function App() {
       <Footer />
 
       <StudyModal study={study} onClose={close} />
+      <Analytics />
     </>
   )
 }

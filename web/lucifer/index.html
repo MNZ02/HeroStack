@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LUCIFER — The Fall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Scroll-scrubbed sequence stage -->
+  <div class="stage">
+    <div class="stage-inner">
+      <canvas
+        id="scrub-canvas"
+        class="scrub-canvas"
+        aria-label="Scroll-scrubbed journey animation"
+        role="img"
+      ></canvas>
+      <!-- Fallback only, shown if the frame sequence is missing -->
+      <video
+        id="scrub-video"
+        class="scrub-video"
+        src="assets/fall.mp4"
+        muted
+        playsinline
+        preload="auto"
+      ></video>
+      <div class="vignette"></div>
+      <div class="grain"></div>
+    </div>
+  </div>
+
+  <!-- Preloader -->
+  <div class="loader" id="loader" aria-live="polite">
+    <span class="brand-name loader-brand">LUCIFER</span>
+    <div class="loader-track"><div class="loader-fill" id="loader-fill"></div></div>
+    <span class="mono" id="loader-label">INITIALIZING</span>
+  </div>
+
+  <!-- Fixed HUD chrome -->
+  <header class="hud hud-top">
+    <a class="brand" href="#">
+      <span class="brand-mark"></span>
+      <span class="brand-name">LUCIFER</span>
+    </a>
+    <nav class="hud-nav">
+      <span>Grace</span>
+      <span>The Fall</span>
+      <span>Abyss</span>
+    </nav>
+    <span class="hud-clock mono" id="hud-clock">T+ 00:00:00</span>
+  </header>
+
+  <div class="hud hud-progress mono">
+    <span id="progress-readout">DESCENT 000%</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span>MORNING STAR</span>
+  </div>
+
+  <!-- Scroll content -->
+  <main>
+    <!-- Act I — Title -->
+    <section class="act act-hero" data-act>
+      <p class="eyebrow mono">THE FIRST FALL · NINE DAYS DESCENDING</p>
+      <h1 class="hero-title">
+        <span class="line">How <em>bright</em> the fall</span>
+        <span class="line">of the morning <em>star</em></span>
+      </h1>
+      <p class="hero-sub">Scroll to begin the descent.</p>
+      <div class="scroll-cue">
+        <div class="cue-line"></div>
+        <span class="mono">SCROLL</span>
+      </div>
+    </section>
+
+    <!-- Act II — The Fall -->
+    <section class="act act-left" data-act>
+      <div class="caption caption-glass" data-reveal>
+        <span class="caption-index mono">01 / THE FALL</span>
+        <h2>Nine days<br />of falling.</h2>
+        <p>
+          Cast out of a light too perfect to doubt,
+          the brightest of them all descends —
+          grace peeling away like burning feathers.
+        </p>
+      </div>
+    </section>
+
+    <!-- Act III — The Burning -->
+    <section class="act act-right" data-act>
+      <div class="caption caption-glass" data-reveal>
+        <span class="caption-index mono">02 / THE BURNING</span>
+        <h2>White wings,<br />turning to night.</h2>
+        <p>
+          Each feather that leaves is a vow unmade.
+          Gold drains from the skin; ember light
+          veins through the cracks like dawn in reverse.
+        </p>
+      </div>
+    </section>
+
+    <!-- Act IV — Reborn -->
+    <section class="act act-center" data-act>
+      <div class="caption caption-final" data-reveal>
+        <span class="caption-index mono">03 / REBORN</span>
+        <h2 class="final-title">Rise as<br /><em>Lucifer</em></h2>
+        <p>
+          The dark below was never a punishment.
+          It is a kingdom, and it has been waiting
+          for exactly this kind of light.
+        </p>
+        <a class="cta" href="#" data-reveal>
+          <span>Enter the abyss</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

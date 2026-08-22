@@ -1,0 +1,395 @@
+:root {
+  --bg: #030407;
+  --ink: #eef1f6;
+  --ink-dim: rgba(238, 241, 246, 0.62);
+  --ink-faint: rgba(238, 241, 246, 0.34);
+  --accent: #d9a05b;
+  --accent-cool: #8fa8c7;
+  --hairline: rgba(238, 241, 246, 0.14);
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--accent); color: #0a0805; }
+
+/* ---------- Video stage (sticky scrub layer) ---------- */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.stage-inner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.scrub-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.scrub-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100vw;
+  min-height: 100vh;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+}
+
+.scrub-video.is-active { visibility: visible; }
+
+/* ---------- Preloader ---------- */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  background: var(--bg);
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loader.is-done {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-brand {
+  font-size: 18px;
+  letter-spacing: 0.5em;
+  margin-right: -0.5em;
+}
+
+.loader-track {
+  width: min(320px, 60vw);
+  height: 1px;
+  background: var(--hairline);
+  overflow: hidden;
+}
+
+.loader-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-cool), var(--accent));
+  transition: width 0.25s ease;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 45%, transparent 42%, rgba(3, 4, 7, 0.72) 100%),
+    linear-gradient(to bottom, rgba(3, 4, 7, 0.55), transparent 22%, transparent 78%, rgba(3, 4, 7, 0.75));
+}
+
+.grain {
+  position: absolute;
+  inset: -100%;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 0.9s steps(4) infinite;
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, 1%); }
+  50% { transform: translate(1%, -2%); }
+  75% { transform: translate(-1%, -1%); }
+  100% { transform: translate(2%, 2%); }
+}
+
+/* ---------- HUD chrome ---------- */
+
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+
+.hud {
+  position: fixed;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+}
+
+.hud-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+  padding: 26px clamp(24px, 5vw, 64px);
+  mix-blend-mode: screen;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--accent);
+  transform: rotate(45deg);
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.32em;
+}
+
+.hud-nav {
+  display: flex;
+  gap: clamp(18px, 3vw, 44px);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.hud-clock { color: var(--ink-faint); }
+
+.hud-progress {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px clamp(24px, 5vw, 64px) 28px;
+  color: var(--ink-faint);
+}
+
+.progress-track {
+  flex: 1;
+  max-width: 420px;
+  margin: 0 auto;
+  height: 1px;
+  background: var(--hairline);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-cool), var(--accent));
+  transition: none;
+}
+
+@media (max-width: 720px) {
+  .hud-nav, .hud-clock { display: none; }
+}
+
+/* ---------- Scroll content / acts ---------- */
+
+main {
+  position: relative;
+  z-index: 10;
+}
+
+.act {
+  min-height: 130vh;
+  display: flex;
+  align-items: center;
+  padding: 0 clamp(24px, 7vw, 110px);
+}
+
+.act-hero {
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 34px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(44px, 8.4vw, 128px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-shadow: 0 4px 60px rgba(0, 0, 0, 0.65);
+}
+
+.hero-title em,
+.final-title em,
+.caption h2 em {
+  font-style: italic;
+  font-weight: 300;
+  background: linear-gradient(100deg, var(--accent) 10%, #f2d9ae 55%, var(--accent) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-sub {
+  color: var(--ink-dim);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 96px;
+  left: clamp(24px, 7vw, 110px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--ink-faint);
+}
+
+.cue-line {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(var(--accent), transparent);
+  animation: cue-drop 1.8s ease-in-out infinite;
+}
+
+@keyframes cue-drop {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* Caption cards */
+
+.act-left { justify-content: flex-start; }
+.act-right { justify-content: flex-end; }
+.act-center { justify-content: center; text-align: center; }
+
+.caption {
+  max-width: 480px;
+  padding: 44px 46px;
+  opacity: 0;
+  transform: translateY(48px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.caption-glass {
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  background: rgba(6, 9, 15, 0.38);
+  border: 1px solid var(--hairline);
+}
+
+.caption-index {
+  display: inline-block;
+  color: var(--accent);
+  margin-bottom: 22px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.caption h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+
+.caption p {
+  color: var(--ink-dim);
+  line-height: 1.75;
+  font-size: 15px;
+}
+
+.caption-final {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.final-title {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 9vw, 140px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  text-shadow: 0 6px 80px rgba(0, 0, 0, 0.8);
+}
+
+.caption-final p {
+  margin-top: 26px;
+  max-width: 420px;
+  color: var(--ink-dim);
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.cta {
+  margin-top: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 30px;
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border: 1px solid rgba(217, 160, 91, 0.45);
+  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+
+.cta:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #120c04;
+}

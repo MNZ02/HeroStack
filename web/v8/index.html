@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>V8 Cutaway — HeroStack</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+    <div class="vignette"></div>
+
+    <header class="hud hud-top">
+      <h1>V8<em>cutaway</em></h1>
+      <p class="sub">cross-plane big-block · three.js study</p>
+    </header>
+
+    <nav class="hud panel" aria-label="Engine layers">
+      <h2>Layers</h2>
+      <button class="layer active" data-level="0"><span>01</span>Assembly</button>
+      <button class="layer" data-level="1"><span>02</span>Strip externals</button>
+      <button class="layer" data-level="2"><span>03</span>Heads off</button>
+      <button class="layer" data-level="3"><span>04</span>Ghost block</button>
+      <button class="layer" data-level="4"><span>05</span>Bare internals</button>
+      <p id="desc" class="desc"></p>
+
+      <div class="controls">
+        <label class="rpm">
+          rpm
+          <input type="range" id="rpm" min="0" max="900" step="10" value="260" />
+          <b id="rpmVal">260</b>
+        </label>
+        <div class="toggles">
+          <label><input type="checkbox" id="spin" checked /> run</label>
+          <label><input type="checkbox" id="orbit" /> auto-orbit</label>
+        </div>
+      </div>
+    </nav>
+
+    <footer class="hud hint">drag&nbsp;·&nbsp;orbit&emsp;wheel&nbsp;·&nbsp;zoom</footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

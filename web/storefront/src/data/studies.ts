@@ -36,12 +36,44 @@ const DEV_PORTS: Record<string, number> = {
   'vision-reveal': 5302,
   prmpt: 5303,
   aeris: 5304,
+  lucifer: 5305,
+  v8: 5306,
 }
 
 export const demoUrl = (slug: string) =>
   import.meta.env.DEV ? `http://localhost:${DEV_PORTS[slug]}/` : `/studies/${slug}/`
 
 export const STUDIES: readonly Study[] = [
+  {
+    slug: 'v8',
+    name: 'V8 — Cutaway',
+    category: 'Interactive',
+    tagline: 'A running big-block you orbit, rev, and strip layer by layer.',
+    about:
+      'No model file, no assets — the entire engine is generated geometry. A cross-plane crank with throws at 0/90/270/180° drives eight rods solved by slider-crank kinematics every frame, so the pistons genuinely answer to the crank, not to a canned loop. The layers peel in order: intake and valve covers lift off, heads and pan slide away along their bank axes, then the block ghosts translucent so the rotating assembly keeps turning over inside it.',
+    preview: '/previews/v8.jpg',
+    weight: '142 KB gzip',
+    stack: ['three.js', 'TypeScript', 'Vite', 'Zero assets'],
+    technique: ['Procedural geometry', 'Slider-crank kinematics', 'Ghosted layers'],
+    tier: 'free',
+    prompt: null,
+    added: '2026-08-22',
+  },
+  {
+    slug: 'lucifer',
+    name: 'LUCIFER — The Fall',
+    category: 'Cinematic',
+    tagline: 'A scroll-scrubbed descent, frame by frame toward the floor.',
+    about:
+      'A film you do not watch but climb down. Scroll position maps to a frame index across a 121-frame sequence, with a loader that probes frames until a miss when no manifest is present and a video fallback if they never arrive. The chrome around it — clock, progress readout, staged reveals — is timed off the same scroll value, so page and footage fall together.',
+    preview: '/previews/lucifer.jpg',
+    weight: '2 KB gzip + 19 MB frames',
+    stack: ['Vanilla JS', 'Canvas 2D', 'Frame sequence'],
+    technique: ['Scroll-scrubbed frames', 'Probe loader', 'Video fallback'],
+    tier: 'premium',
+    prompt: null,
+    added: '2026-08-15',
+  },
   {
     slug: 'aeris',
     name: 'Aeris — Respirator',

@@ -11,6 +11,8 @@ web/
   vision-reveal/ Saiyan Studio — cursor-spotlight power reveal
   prmpt/         Fashion archive — cursor-scrubbed video into a scroll gallery
   aeris/         Respirator product page — cursor-addressed frame sequence
+  lucifer/       The Fall — scroll-scrubbed descent study
+  v8/            V8 Cutaway — three.js engine you can strip layer by layer
 packages/        shared code, once two projects actually need the same thing
 ```
 

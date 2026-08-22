@@ -5,7 +5,7 @@
  * somewhere flattering before the shutter — a cold screenshot of these pages
  * shows the *un*-revealed state, which is the boring half.
  *
- *   1. npm run dev            (studies pin themselves to 5301-5304)
+ *   1. npm run dev            (studies pin themselves to 5301-5306)
  *   2. npm run previews --workspace=storefront
  *
  * Needs puppeteer-core and a local Chrome; neither is a dependency of this
@@ -28,6 +28,8 @@ const SHOTS = [
   { slug: 'vision-reveal', url: 'http://localhost:5302/', mouse: [720, 420] },
   { slug: 'prmpt', url: 'http://localhost:5303/', mouse: [1180, 450] },
   { slug: 'aeris', url: 'http://localhost:5304/', mouse: [1180, 450] },
+  { slug: 'lucifer', url: 'http://localhost:5305/', mouse: [720, 420] },
+  { slug: 'v8', url: 'http://localhost:5306/', mouse: [720, 450] },
 ]
 
 const { default: puppeteer } = await import('puppeteer-core')

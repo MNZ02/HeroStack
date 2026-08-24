@@ -24,6 +24,7 @@ const CHROME =
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 
 const SHOTS = [
+  { slug: 'raptor', url: 'http://localhost:5307/', mouse: [720, 450] },
   { slug: 'comicraft', url: 'http://localhost:5301/', mouse: [980, 430] },
   { slug: 'vision-reveal', url: 'http://localhost:5302/', mouse: [720, 420] },
   { slug: 'prmpt', url: 'http://localhost:5303/', mouse: [1180, 450] },

@@ -99,6 +99,10 @@ production build, and to a fixed localhost port in dev:
 | comicraft | 5301 | 5401 |
 | vision-reveal | 5302 | 5402 |
 | prmpt | 5303 | 5403 |
+| aeris | 5304 | 5404 |
+| lucifer | 5305 | 5405 |
+| v8 | 5306 | 5406 |
+| raptor | 5307 | 5407 |
 
 Those are pinned with `--strictPort` in each workspace's `dev` script, and the
 pinning is what makes the map in `studies.ts` true. On Vite's default the four

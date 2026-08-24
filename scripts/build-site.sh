@@ -18,7 +18,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT="$ROOT/web/storefront/dist"
 
 # Keep in sync with `demo` in web/storefront/src/data/studies.ts.
-STUDIES=(comicraft vision-reveal prmpt aeris lucifer v8)
+STUDIES=(raptor comicraft vision-reveal prmpt aeris lucifer v8)
 
 echo "==> storefront"
 npx turbo run build --filter=storefront

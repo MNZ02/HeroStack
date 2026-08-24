@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raptor Cutaway — HeroStack</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+    <div class="vignette"></div>
+
+    <header class="hud hud-top">
+      <h1>RAPTOR<em>cutaway</em></h1>
+      <p class="sub">full-flow staged-combustion · three.js study</p>
+    </header>
+
+    <nav class="hud panel" aria-label="Engine layers">
+      <h2>Layers</h2>
+      <button class="layer active" data-level="0"><span>01</span>Assembly</button>
+      <button class="layer" data-level="1"><span>02</span>Loops off</button>
+      <button class="layer" data-level="2"><span>03</span>Bell off</button>
+      <button class="layer" data-level="3"><span>04</span>Ghost chamber</button>
+      <button class="layer" data-level="4"><span>05</span>Bare hot section</button>
+      <p id="desc" class="desc"></p>
+
+      <div class="controls">
+        <label class="throttle">
+          throttle
+          <input type="range" id="throttle" min="0" max="100" step="2" value="42" />
+          <b id="throttleVal">42</b>
+        </label>
+        <div class="toggles">
+          <label><input type="checkbox" id="flow" checked /> flow</label>
+          <label><input type="checkbox" id="orbit" /> auto-orbit</label>
+        </div>
+      </div>
+    </nav>
+
+    <footer class="hud hint">
+      <span class="hint-mouse">drag&nbsp;·&nbsp;orbit&emsp;wheel&nbsp;·&nbsp;zoom</span>
+      <span class="hint-touch">drag&nbsp;·&nbsp;rotate&emsp;pinch&nbsp;·&nbsp;zoom</span>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

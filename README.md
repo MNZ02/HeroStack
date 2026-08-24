@@ -13,6 +13,7 @@ web/
   aeris/         Respirator product page — cursor-addressed frame sequence
   lucifer/       The Fall — scroll-scrubbed descent study
   v8/            V8 Cutaway — three.js engine you can strip layer by layer
+  raptor/        Raptor Cutaway — a SpaceX Raptor engine you strip to the burning chamber
 packages/        shared code, once two projects actually need the same thing
 ```
 
@@ -41,6 +42,9 @@ something predictable to point at — **the shop is on 5300**, not Vite's defaul
 | `vision-reveal` | 5302 | 5402 |
 | `prmpt` | 5303 | 5403 |
 | `aeris` | 5304 | 5404 |
+| `lucifer` | 5305 | 5405 |
+| `v8` | 5306 | 5406 |
+| `raptor` | 5307 | 5407 |
 
 To work on one project, filter it:
 
@@ -116,6 +120,22 @@ ships; the mirrored turn is the same files under `scaleX(-1)`.
 
 No GSAP, no animation library — one RAF loop and two opacity writes per change.
 `ASSETS.md` is the runbook for cutting the frames from source footage.
+
+### `web/raptor`
+
+Raptor Cutaway. A SpaceX Raptor methalox engine — full-flow staged combustion —
+generated entirely in three.js. The bell nozzle, throat and regeneratively-cooled
+chamber are a surface of revolution; two preburner/turbopump modules hang off the
+sides behind a web of feed lines. Throttle it and the turbopumps spin and the
+chamber glows. The cutaway peels in order: feed network and modules lift clear,
+the bell comes off, the cooling jacket strips and the chamber ghosts translucent
+so you watch the injector plate and the burn inside it, down to a bare hot
+section.
+
+Its own `README.md` covers the per-layer material trick and how a translucent
+flame lives inside an opaque layer (per-material `baseOpacity`), and that the
+cutaway is an *exploded* one — every layer both fades and translates along the
+engine axis, so the separated shells stay visible while the inner core is shown.
 
 ## Conventions
 

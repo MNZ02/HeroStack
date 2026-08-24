@@ -32,6 +32,7 @@ export type Study = {
  * They only resolve while `npm run dev` is running.
  */
 const DEV_PORTS: Record<string, number> = {
+  raptor: 5307,
   comicraft: 5301,
   'vision-reveal': 5302,
   prmpt: 5303,
@@ -44,6 +45,21 @@ export const demoUrl = (slug: string) =>
   import.meta.env.DEV ? `http://localhost:${DEV_PORTS[slug]}/` : `/studies/${slug}/`
 
 export const STUDIES: readonly Study[] = [
+  {
+    slug: 'raptor',
+    name: 'Raptor — Cutaway',
+    category: 'Interactive',
+    tagline: 'A full-flow staged-combustion methalox engine you throttle and strip to the burning chamber.',
+    about:
+      "A SpaceX Raptor built entirely as generated geometry — no model file, no asset pipeline. The bell nozzle, throat and regeneratively-cooled chamber are a surface of revolution; two preburner/turbopump modules hang off the sides behind a web of feed lines. Throttle it and the turbopumps spin, the injector sprays and the chamber begins to glow. The exploded cutaway peels in order: the looping feed network and twin modules lift clear, the bell drops away, then the cooling jacket strips and the chamber ghosts translucent so you watch the injector plate, shock diamonds and the burn inside, down to a bare hot section with a glowing throat — the separated shells staying visible in the periphery.",
+    preview: '/previews/raptor.jpg',
+    weight: '151 KB gzip',
+    stack: ['three.js', 'TypeScript', 'Vite', 'Zero assets'],
+    technique: ['Surface of revolution', 'Exploded layers', 'Animated burn', 'Shock diamonds'],
+    tier: 'free',
+    prompt: null,
+    added: '2026-08-24',
+  },
   {
     slug: 'v8',
     name: 'V8 — Cutaway',

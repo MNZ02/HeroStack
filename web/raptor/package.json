@@ -1,0 +1,23 @@
+{
+  "name": "raptor",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Raptor Cutaway — a three.js SpaceX Raptor methalox engine you orbit, throttle, and strip layer by layer to the burning chamber.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5307 --strictPort",
+    "build": "tsc --noEmit && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview --port 5407 --strictPort",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.185.0",
+    "oxlint": "^1.71.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.1.1"
+  }
+}

@@ -109,13 +109,13 @@
   }
 
   // ---------- Midway tremor ----------
-  // Stillness through grace; the frame starts to rattle as the fall
-  // gets underway, peaks through chaos, and goes quiet before the lake.
+  // Dead still through grace; the frame starts to rattle at "Nine days",
+  // peaks through chaos, and goes quiet before the lake.
   const smoothstep = (t) => t * t * (3 - 2 * t);
 
   function tremorEnv(p) {
     if (REDUCED) return 0;
-    const build = smoothstep(clamp((p - 0.42) / 0.14, 0, 1));
+    const build = smoothstep(clamp((p - 0.485) / 0.09, 0, 1));
     const settle = 1 - smoothstep(clamp((p - 0.8) / 0.1, 0, 1));
     const impact = p > 0.825 ? Math.exp(-(p - 0.825) * 22) : 0;
     return Math.max(build * settle, impact);
@@ -400,13 +400,13 @@
     function renderStage(p, vel) {
       const base = 1.04 + p * 0.14;
       const stretch = clamp(Math.abs(vel) * 0.09, 0, 0.02);
-      const amp = REDUCED ? 0 : Math.min(Math.abs(vel) * 46, 7) ** 1.2;
+      const env = tremorEnv(p);
+      const amp = REDUCED || env === 0 ? 0 : Math.min(Math.abs(vel) * 46, 7) ** 1.2;
       let sx = Math.sin(elapsed * 61) * amp;
       let sy = Math.cos(elapsed * 47) * amp * 0.7;
       let rot = 0;
 
       if (!REDUCED) {
-        const env = tremorEnv(p);
         if (env > 0.001) {
           const shake = env * (4.5 + Math.min(Math.abs(vel) * 7, 3.5));
           sx += (Math.sin(elapsed * 38.2) * 0.62 + Math.sin(elapsed * 91.7) * 0.38) * shake;

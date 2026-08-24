@@ -10,9 +10,6 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-
-# Derived scroll-scrub frames (regenerate with npm run frames)
-assets/frames
 *.local
 
 # Editor directories and files

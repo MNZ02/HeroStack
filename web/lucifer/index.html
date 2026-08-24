@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LUCIFER — The Fall</title>
+  <title>LUCIFER — The Fall</title>
+  <meta name="description" content="Nine days of falling. A scroll-scrubbed retelling of the descent of the morning star." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='23' font-size='22' text-anchor='middle' fill='%23d9a05b'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="styles.css" />
@@ -16,113 +18,190 @@
 
   <!-- Scroll-scrubbed sequence stage -->
   <div class="stage">
-    <div class="stage-inner">
+    <div class="stage-inner" id="stage-inner">
       <canvas
         id="scrub-canvas"
         class="scrub-canvas"
-        aria-label="Scroll-scrubbed journey animation"
+        aria-label="Scroll-scrubbed descent animation"
         role="img"
       ></canvas>
       <!-- Fallback only, shown if the frame sequence is missing -->
       <video
         id="scrub-video"
         class="scrub-video"
-        src="assets/fall.mp4"
         muted
         playsinline
-        preload="auto"
       ></video>
+      <div class="grade"></div>
+      <div class="glow"></div>
       <div class="vignette"></div>
       <div class="grain"></div>
     </div>
+    <canvas id="embers" aria-hidden="true"></canvas>
   </div>
 
   <!-- Preloader -->
   <div class="loader" id="loader" aria-live="polite">
-    <span class="brand-name loader-brand">LUCIFER</span>
+    <span class="loader-star">✦</span>
+    <span class="loader-brand">LUCIFER</span>
+    <em class="loader-quote">&ldquo;How art thou fallen from heaven,<br>O Lucifer, son of the morning.&rdquo;</em>
+    <span class="mono loader-cite">ISAIAH 14 : 12</span>
     <div class="loader-track"><div class="loader-fill" id="loader-fill"></div></div>
     <span class="mono" id="loader-label">INITIALIZING</span>
   </div>
 
   <!-- Fixed HUD chrome -->
   <header class="hud hud-top">
-    <a class="brand" href="#">
+    <a class="brand" href="#top">
       <span class="brand-mark"></span>
       <span class="brand-name">LUCIFER</span>
     </a>
-    <nav class="hud-nav">
-      <span>Grace</span>
-      <span>The Fall</span>
-      <span>Abyss</span>
+    <nav class="hud-nav" aria-label="Acts">
+      <span data-nav="grace"><i>I</i>Grace</span>
+      <span data-nav="fall"><i>II</i>The Fall</span>
+      <span data-nav="abyss"><i>III</i>Abyss</span>
     </nav>
     <span class="hud-clock mono" id="hud-clock">T+ 00:00:00</span>
   </header>
 
+  <span class="hud spine mono" aria-hidden="true">PARADISE LOST&nbsp;&middot;&nbsp;BOOK I&nbsp;&middot;&nbsp;A DESCENT IN NINE STATIONS</span>
+
+  <nav class="rail" id="rail" aria-label="Stations"></nav>
+
   <div class="hud hud-progress mono">
     <span id="progress-readout">DESCENT 000%</span>
     <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-    <span>MORNING STAR</span>
+    <span id="hud-day">HEAVEN &middot; BEFORE THE FALL</span>
   </div>
 
-  <!-- Scroll content -->
-  <main>
-    <!-- Act I — Title -->
-    <section class="act act-hero" data-act>
-      <p class="eyebrow mono">THE FIRST FALL · NINE DAYS DESCENDING</p>
-      <h1 class="hero-title">
-        <span class="line">How <em>bright</em> the fall</span>
-        <span class="line">of the morning <em>star</em></span>
-      </h1>
-      <p class="hero-sub">Scroll to begin the descent.</p>
-      <div class="scroll-cue">
+  <!-- Scroll-synced narrative layer -->
+  <div class="film" id="film">
+
+    <section class="station station-hero" data-from="-1" data-to="0.045">
+      <div class="hero-inner">
+        <p class="eyebrow mono">THE FIRST FALL &middot; NINE DAYS DESCENDING</p>
+        <h1 class="hero-title">
+          <span class="line"><span>How</span> <em><span>bright</span></em></span>
+          <span class="line"><span>the fall of</span></span>
+          <span class="line indent"><em><span>the morning</span></em></span>
+          <span class="line"><em><span>star.</span></em></span>
+        </h1>
+        <p class="hero-sub">Scroll, and begin the nine days.</p>
+      </div>
+      <div class="scroll-cue" aria-hidden="true">
         <div class="cue-line"></div>
-        <span class="mono">SCROLL</span>
+        <span class="mono">DESCEND</span>
       </div>
     </section>
 
-    <!-- Act II — The Fall -->
-    <section class="act act-left" data-act>
-      <div class="caption caption-glass" data-reveal>
-        <span class="caption-index mono">01 / THE FALL</span>
-        <h2>Nine days<br />of falling.</h2>
-        <p>
-          Cast out of a light too perfect to doubt,
-          the brightest of them all descends —
-          grace peeling away like burning feathers.
-        </p>
-      </div>
+    <!-- ACT I — GRACE -->
+
+    <section class="station s-right" data-from="0.075" data-to="0.155" data-station="i">
+      <span class="v-index mono">I &middot; GRACE</span>
+      <h2 class="v-title">The morning<br /><em>star</em></h2>
+      <p class="v-text">
+        First-born of the dawn&rsquo;s heralds, fairest of the seraphim.
+        His light did not reflect the sun &mdash; the sun reflected him,
+        and he knew it, and the knowing was the beginning.
+      </p>
     </section>
 
-    <!-- Act III — The Burning -->
-    <section class="act act-right" data-act>
-      <div class="caption caption-glass" data-reveal>
-        <span class="caption-index mono">02 / THE BURNING</span>
-        <h2>White wings,<br />turning to night.</h2>
-        <p>
-          Each feather that leaves is a vow unmade.
-          Gold drains from the skin; ember light
-          veins through the cracks like dawn in reverse.
-        </p>
-      </div>
+    <section class="station s-left" data-from="0.17" data-to="0.25" data-station="ii">
+      <span class="v-index mono">II &middot; GRACE</span>
+      <h2 class="v-title">The first<br /><em>thought</em></h2>
+      <p class="v-text">
+        No thunder announced it. Sin arrived the way dusk does &mdash;
+        a glance upward held one moment past worship,
+        a question shaped like a crown.
+      </p>
     </section>
 
-    <!-- Act IV — Reborn -->
-    <section class="act act-center" data-act>
-      <div class="caption caption-final" data-reveal>
-        <span class="caption-index mono">03 / REBORN</span>
-        <h2 class="final-title">Rise as<br /><em>Lucifer</em></h2>
-        <p>
-          The dark below was never a punishment.
-          It is a kingdom, and it has been waiting
-          for exactly this kind of light.
-        </p>
-        <a class="cta" href="#" data-reveal>
-          <span>Enter the abyss</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
+    <section class="station s-right" data-from="0.265" data-to="0.345" data-station="iii">
+      <span class="v-index mono">III &middot; GRACE</span>
+      <h2 class="v-title">The <em>decree</em></h2>
+      <p class="v-text">
+        One archangel knelt too slowly, and Heaven noticed.
+        The sentence needed no trumpet: a door opened
+        beneath the brightest thing in creation.
+      </p>
     </section>
-  </main>
+
+    <!-- ACT II — THE FALL -->
+
+    <section class="station s-left" data-from="0.37" data-to="0.46" data-station="iv">
+      <span class="v-index mono">IV &middot; THE FALL</span>
+      <h2 class="v-title">Cast <em>down</em></h2>
+      <p class="v-text">
+        There was no war worth the name, whatever the hymns claim.
+        There was a threshold, and then there was gravity &mdash;
+        and grace peeling off him like burning feathers.
+      </p>
+    </section>
+
+    <section class="station s-right" data-from="0.485" data-to="0.575" data-station="v">
+      <span class="v-index mono">V &middot; THE FALL</span>
+      <h2 class="v-title">Nine <em>days</em></h2>
+      <p class="v-text">
+        Nine days he fell, a red line struck through creation.
+        Every world saw it at once: a second sunrise moving the wrong way,
+        beautiful precisely because it was ending.
+      </p>
+    </section>
+
+    <section class="station s-left" data-from="0.60" data-to="0.69" data-station="vi">
+      <span class="v-index mono">VI &middot; THE FALL</span>
+      <h2 class="v-title">White wings<br />turning to <em>night</em></h2>
+      <p class="v-text">
+        Gold drained from the skin; the six wings blackened from the tips inward,
+        ember-light veining through the cracks like dawn in reverse.
+        Each feather that left was a vow unmade.
+      </p>
+    </section>
+
+    <section class="station s-center" data-from="0.715" data-to="0.80" data-station="vii">
+      <span class="v-index mono">VII &middot; THE FALL</span>
+      <h2 class="v-title">Chaos</h2>
+      <p class="v-text">
+        Between heaven and hell there is no up, no down, no hour.
+        Only the fall, remembering itself,
+        and the wind of it shouting his name back at him &mdash;
+        the last time anyone said it as an angel&rsquo;s.
+      </p>
+    </section>
+
+    <!-- ACT III — ABYSS -->
+
+    <section class="station s-left" data-from="0.83" data-to="0.905" data-station="viii">
+      <span class="v-index mono">VIII &middot; ABYSS</span>
+      <h2 class="v-title">The burning<br /><em>lake</em></h2>
+      <p class="v-text">
+        He struck it like a sun refusing to set.
+        The fire did not consume him &mdash; it recognized him,
+        parted, and offered him a seat.
+      </p>
+    </section>
+
+    <section class="station station-final" data-from="0.93" data-to="1.5" data-station="ix">
+      <svg class="sigil" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+        <circle class="sigil-ring" cx="60" cy="60" r="46"/>
+        <path class="sigil-star" d="M60 14 L74.5 47.5 L111 49.5 L82.5 71.5 L92.5 107 L60 85.5 L27.5 107 L37.5 71.5 L9 49.5 L45.5 47.5 Z"/>
+      </svg>
+      <span class="v-index mono">IX &middot; ABYSS</span>
+      <h2 class="final-title">Rise,<br /><em>Lucifer.</em></h2>
+      <p class="v-text final-text">
+        The dark below was never a punishment.
+        It is a kingdom &mdash; and it had been keeping
+        a throne warm for exactly this kind of light.
+      </p>
+      <blockquote class="epigraph">
+        <em>&ldquo;Better to reign in Hell, than serve in Heav&rsquo;n.&rdquo;</em>
+        <cite class="mono">MILTON &mdash; PARADISE LOST, BOOK I</cite>
+      </blockquote>
+    </section>
+  </div>
+
+  <!-- Scroll runway -->
+  <div class="spacer" id="spacer" aria-hidden="true"></div>
 
   <script type="module" src="./main.js"></script>
 </body>

@@ -8,7 +8,7 @@ FPS="${FPS:-24}"
 WIDTH="${WIDTH:-1920}"
 QUALITY="${QUALITY:-3}" # ffmpeg -qscale:v, 2 = best, 5 = smaller
 SRC="${SRC:-assets/fall.mp4}"
-OUT="assets/frames"
+OUT="public/frames"
 
 command -v ffmpeg >/dev/null 2>&1 || { echo "ffmpeg not found" >&2; exit 1; }
 [ -f "$SRC" ] || { echo "$SRC not found" >&2; exit 1; }

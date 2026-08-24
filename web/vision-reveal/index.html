@@ -466,7 +466,7 @@ html, body {
           </svg>
         </span>
       </button>
-      <p class="hero-hint">Move your cursor to <strong>unlock the transformation</strong></p>
+      <p class="hero-hint" id="hero-hint">Move your cursor to <strong>unlock the transformation</strong></p>
     </div>
   </div>
 </main>
@@ -515,11 +515,19 @@ html, body {
   });
 
   // Super Saiyan spotlight reveal
-  const SPOTLIGHT_R = 280;
+  // The radius tracks the viewport — a fixed 280px core swallows most of a
+  // phone screen and turns the reveal into a full-frame flash.
+  const SPOTLIGHT_R = Math.min(280, Math.round(window.innerWidth * 0.35));
   const imgLayer = document.getElementById('reveal-img');
   const mouse = { x: -9999, y: -9999 };
   const smooth = { x: -9999, y: -9999 };
   let running = false;
+
+  // Touch has no cursor, so the instruction reads for the finger there.
+  if (window.matchMedia('(hover: none)').matches) {
+    const hint = document.getElementById('hero-hint');
+    if (hint) hint.innerHTML = 'Drag your finger to <strong>unlock the transformation</strong>';
+  }
 
   function setMask(x, y) {
     const rect = imgLayer.getBoundingClientRect();
@@ -561,6 +569,16 @@ html, body {
     mouse.x = -9999;
     mouse.y = -9999;
   });
+
+  window.addEventListener('touchstart', function(e) {
+    if (!e.touches[0]) return;
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+    if (!running) {
+      running = true;
+      requestAnimationFrame(loop);
+    }
+  }, { passive: true });
 
   window.addEventListener('touchmove', function(e) {
     if (!e.touches[0]) return;

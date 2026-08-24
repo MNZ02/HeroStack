@@ -219,6 +219,13 @@ orbitEl.addEventListener('change', () => {
   controls.autoRotate = orbitEl.checked
 })
 
+// Reduced motion opens on a still engine and a parked camera; both toggles
+// are one tap away for anyone who wants the motion back.
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  spinEl.checked = false
+  orbitEl.checked = false
+}
+
 const SLOWMO = 0.12
 let crankAngle = THREE.MathUtils.degToRad(15)
 

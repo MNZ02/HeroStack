@@ -161,8 +161,9 @@ export default function HeroChrome({ viewport }: Props) {
         ))}
       </div>
 
-      {/* The only instruction the page gives */}
-      {!compact && (
+      {/* The only instruction the page gives. On a narrow phone it shares the
+          bottom band with the price row, so it steps aside there. */}
+      {viewport.width >= 360 && (
         <div
           style={{
             position: 'absolute',
@@ -172,7 +173,11 @@ export default function HeroChrome({ viewport }: Props) {
             opacity: 0.4,
           }}
         >
-          ←&nbsp;&nbsp;Move across the frame&nbsp;&nbsp;→
+          {viewport.isTouch ? (
+            <>←&nbsp;&nbsp;Drag across the frame&nbsp;&nbsp;→</>
+          ) : (
+            <>←&nbsp;&nbsp;Move across the frame&nbsp;&nbsp;→</>
+          )}
         </div>
       )}
 
@@ -212,7 +217,13 @@ export default function HeroChrome({ viewport }: Props) {
         >
           <span style={{ opacity: 0.45 }}>USD</span>
           <span style={{ fontWeight: 600, fontSize: compact ? 14 : 16 }}>312.00</span>
-          <span style={{ border: `1px solid ${INK}`, padding: '7px 15px', fontWeight: 500 }}>
+          <span
+            style={{
+              border: `1px solid ${INK}`,
+              padding: compact ? '10px 18px' : '7px 15px',
+              fontWeight: 500,
+            }}
+          >
             Reserve
           </span>
         </div>

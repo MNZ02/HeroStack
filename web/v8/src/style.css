@@ -202,12 +202,32 @@ body {
   user-select: none;
 }
 
+/* The wheel does not exist on a touch screen; OrbitControls' pinch does. */
+.hint-touch {
+  display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .hint-mouse {
+    display: none;
+  }
+
+  .hint-touch {
+    display: inline;
+  }
+}
+
 @media (max-width: 720px) {
   .panel {
     left: 16px;
     right: 16px;
     width: auto;
     bottom: 16px;
+    /* A full-width sheet with five layers plus controls can cover most of a
+       phone; let it scroll internally rather than swallow the engine. */
+    max-height: min(52vh, 420px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .hud-top {
@@ -215,7 +235,15 @@ body {
     left: 16px;
   }
 
+  .layer {
+    padding: 11px 10px;
+  }
+
+  /* No room in the corner it shares with nothing — park the hint opposite
+     the title instead of under the sheet. */
   .hint {
-    display: none;
+    top: 16px;
+    right: 16px;
+    bottom: auto;
   }
 }

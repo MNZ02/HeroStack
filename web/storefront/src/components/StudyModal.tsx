@@ -115,7 +115,10 @@ export default function StudyModal({ study, onClose }: Props) {
                   <button
                     type="button"
                     onClick={() => setLive(true)}
-                    className="absolute inset-0 flex cursor-pointer items-center justify-center bg-ink/30 opacity-0 transition-opacity hover:opacity-100"
+                    // Hover reveals this on a mouse; there is no hover to wait
+                    // for on touch, and no focus without one, so both get the
+                    // control outright rather than an invisible tap target.
+                    className="absolute inset-0 flex cursor-pointer items-center justify-center bg-ink/30 opacity-0 transition-opacity hover:opacity-100 focus-visible:opacity-100 [@media(hover:none)]:opacity-100"
                   >
                     <span className="rounded-full bg-paper px-6 py-3 text-[14px] font-600 text-ink">
                       ▶ Run it live

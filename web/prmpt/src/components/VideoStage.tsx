@@ -135,7 +135,9 @@ export default function VideoStage({ viewport }: Props) {
               left: 0,
               top: 220,
               width: '100vw',
-              height: 'calc(100vh - 220px)',
+              // dvh, not vh: a static vh box hangs below the collapsed iOS
+              // URL bar and clips the bottom of the frame.
+              height: 'calc(100dvh - 220px)',
             }),
       }}
     >

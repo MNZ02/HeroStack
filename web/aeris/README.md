@@ -9,35 +9,22 @@ npm run dev --workspace=aeris     # http://localhost:5304
 
 ## What this study is actually about
 
-`web/prmpt` does the same cursor-to-position trick by seeking a `<video>`.
-This one does it by picking a still out of an array — and that is the whole
-point of building it twice.
+Instead of seeking a `<video>` element on cursor movement, this study picks
+a still out of a pre-extracted array of frames.
 
-Scrubbing video looks like the obvious approach and is the wrong one.
-Measured on prmpt's clips, fully buffered, `readyState 4`, nothing waiting on
-the network:
+Scrubbing video directly looks like the obvious approach, but is often the wrong one:
+long keyframe intervals mean arbitrary seeks must decode from the nearest keyframe,
+causing seek latencies (>100ms) that bottleneck a 60fps RAF loop down to ~8fps.
 
-| | |
-| --- | --- |
-| seek latency, median | 121 ms |
-| seek latency, p90 | 203 ms |
-
-`ffprobe` explains it: the clips carry **one keyframe across 121 frames**. Any
-seek to an arbitrary time has to decode from the start. Nothing tunes that
-away — it is how the file is built. prmpt's `VideoStage` guards its writes with
-`if (!current.seeking)` precisely because of this, and the effect is that a
-60fps RAF loop discards roughly seven of every eight ticks and the scrub
-updates at about 8fps.
-
-Frames have no such cost. Selecting one is an array index, and swapping which
+Frames have no such cost. Selecting one is an array index lookup, and swapping which
 of two nodes is opaque is the entire update.
 
-It is also smaller. One direction as 30 webp stills is **768 KB**, against
+It is also smaller: one direction as 30 webp stills is **768 KB**, against
 **5.3 MB** for the mp4 they were cut from.
 
 ## How the mapping works
 
-Identical to prmpt's, so the two are directly comparable:
+Cursor position maps across the viewport:
 
 ```
 centre = innerWidth / 2

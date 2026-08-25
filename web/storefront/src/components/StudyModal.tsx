@@ -14,7 +14,7 @@ export default function StudyModal({ study, onClose }: Props) {
 
   useEffect(() => {
     setCopy('idle')
-    // The live frame is opt-in per study — prmpt alone pulls 8 MB of video,
+    // The live frame is opt-in per study — media-heavy studies can pull large video payloads,
     // which nobody should pay for just by opening a panel.
     setLive(false)
   }, [study?.slug])

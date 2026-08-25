@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 
 /**
- * Duplicated from `web/prmpt` rather than shared. Two studies now want it,
- * which is the bar `packages/` exists for — but lifting it means editing prmpt
- * too, so it stays local until something else forces the move.
+ * Viewport breakout hook for responsive layout and touch detection.
  */
 export type Viewport = {
   width: number

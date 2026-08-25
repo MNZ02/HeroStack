@@ -76,7 +76,7 @@ web/storefront/dist/
   index.html                 the shop
   studies/comicraft/         live
   studies/vision-reveal/     live
-  studies/prmpt/             live
+  studies/aeris/             live
 ```
 
 The `--base` is the whole trick. Vite rewrites its own emitted asset URLs, but
@@ -87,7 +87,7 @@ served from a subdirectory. Both offenders are fixed at the source:
 `vision-reveal` references its frames relatively.
 
 In the modal the demo is **opt-in** — the still is shown until you press *Run it
-live*, because `prmpt` alone pulls about 8 MB of video and nobody should pay
+live*, because heavy media studies pull large asset payloads and nobody should pay
 that just for opening a panel.
 
 `demoUrl()` in `src/data/studies.ts` resolves to `/studies/<slug>/` in a
@@ -98,11 +98,11 @@ production build, and to a fixed localhost port in dev:
 | storefront | 5300 | 5400 |
 | comicraft | 5301 | 5401 |
 | vision-reveal | 5302 | 5402 |
-| prmpt | 5303 | 5403 |
 | aeris | 5304 | 5404 |
 | lucifer | 5305 | 5405 |
 | v8 | 5306 | 5406 |
 | raptor | 5307 | 5407 |
+| deep-sea-jellybot | 5308 | 5408 |
 
 Those are pinned with `--strictPort` in each workspace's `dev` script, and the
 pinning is what makes the map in `studies.ts` true. On Vite's default the four

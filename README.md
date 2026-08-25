@@ -9,7 +9,6 @@ web/
   storefront/    The showcase — browses and previews everything below
   comicraft/     Comicraft Studio — samurai-themed portfolio hero
   vision-reveal/ Saiyan Studio — cursor-spotlight power reveal
-  prmpt/         Fashion archive — cursor-scrubbed video into a scroll gallery
   aeris/         Respirator product page — cursor-addressed frame sequence
   lucifer/       The Fall — scroll-scrubbed descent study
   v8/            V8 Cutaway — three.js engine you can strip layer by layer
@@ -41,7 +40,6 @@ something predictable to point at — **the shop is on 5300**, not Vite's defaul
 | `storefront` | 5300 | 5400 |
 | `comicraft` | 5301 | 5401 |
 | `vision-reveal` | 5302 | 5402 |
-| `prmpt` | 5303 | 5403 |
 | `aeris` | 5304 | 5404 |
 | `lucifer` | 5305 | 5405 |
 | `v8` | 5306 | 5406 |
@@ -97,27 +95,15 @@ Deliberately dependency-free: no React, no Tailwind, no GSAP. One `index.html`
 holds the markup, the styles and the behaviour; Vite only serves and minifies
 it. Its `README.md` covers the mask maths and the reduced-motion paths.
 
-### `web/prmpt`
-
-Fashion archive in two scroll phases: a video hero the cursor *scrubs* rather
-than plays, then a black panel that rides up carrying a scattered gallery whose
-cards scale in and out of the viewport, closing on a white outro.
-
-React 19 + TypeScript, GSAP for the panel ride-up and a single RAF loop for
-everything else. Built to an external spec, so its `README.md` records the
-transform-ownership rule the two animation systems depend on, plus every place
-the source spec was ambiguous or wrong.
-
 ### `web/aeris`
 
-Respirator product hero. The same cursor-to-position mapping as `prmpt`, built
-the opposite way: the head turn is thirty self-hosted webp stills and the
-pointer selects one by index, rather than a video seeking to a time.
+Respirator product hero. A cursor-addressed frame sequence: the head turn
+is thirty self-hosted webp stills and the pointer selects one by index,
+rather than a video seeking to a time.
 
-That swap is the study. `prmpt`'s clips carry a single keyframe across 121
-frames, so every seek decodes from the start — ~120ms even fully buffered,
-which caps the scrub near 8fps. Frames cost an array lookup. Only one direction
-ships; the mirrored turn is the same files under `scaleX(-1)`.
+This avoids keyframe decode stalls (~120ms even fully buffered), keeping the
+scrub smooth. Only one direction ships; the mirrored turn is the same files
+under `scaleX(-1)`.
 
 No GSAP, no animation library — one RAF loop and two opacity writes per change.
 `ASSETS.md` is the runbook for cutting the frames from source footage.

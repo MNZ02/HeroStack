@@ -32,12 +32,6 @@ export default function StudyCard({ study, index, onOpen }: Props) {
             {study.category}
           </span>
 
-          {study.tier === 'free' && (
-            <span className="absolute top-3 right-3 rounded-full bg-accent px-2.5 py-1 text-[11px] font-700 tracking-wide text-ink uppercase">
-              Free
-            </span>
-          )}
-
           <div className="pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-2 items-center justify-between bg-gradient-to-t from-ink/90 to-transparent p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
             <span className="text-[13px] font-600">View study</span>
             <span className="text-[13px] font-500 text-muted">{study.weight}</span>

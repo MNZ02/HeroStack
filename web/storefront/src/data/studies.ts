@@ -10,7 +10,6 @@ export type Study = {
   weight: string
   stack: readonly string[]
   technique: readonly string[]
-  tier: 'free' | 'premium'
   /** Path under `public/prompts/`, or null while the spec is still being written. */
   prompt: string | null
   added: string
@@ -39,12 +38,27 @@ const DEV_PORTS: Record<string, number> = {
   aeris: 5304,
   lucifer: 5305,
   v8: 5306,
+  'deep-sea-jellybot': 5308,
 }
 
 export const demoUrl = (slug: string) =>
   import.meta.env.DEV ? `http://localhost:${DEV_PORTS[slug]}/` : `/studies/${slug}/`
 
 export const STUDIES: readonly Study[] = [
+  {
+    slug: 'deep-sea-jellybot',
+    name: 'Abyssal Medusa — Sim',
+    category: 'Interactive',
+    tagline: 'A robotic jellyfish inside a paper-blueprint mission console, stripped to three core components.',
+    about:
+      'A deep-sea jellyfish drone drawn like an engineering datasheet: a wireframe membrane dome over stacked machinery plates, a red-panelled utility spine, and sixteen beaded actuator limbs — every part generated geometry on a plotted-paper HUD. The exploded view separates the assembly into its three core components — neural dome, utility spine, propulsor limb — with the dome itself peeling apart into mast, membrane, guts and plates; each component has a dedicated camera focus. Tentacles are two instanced meshes solved as beaded kinematic chains every frame.',
+    preview: '/previews/deep-sea-jellybot.jpg',
+    weight: '140 KB gzip',
+    stack: ['three.js', 'Vanilla JS', 'Vite', 'Zero assets'],
+    technique: ['Wireframe membrane', 'Instanced kinematics', 'Component exploded view', 'Canvas HUD'],
+    prompt: null,
+    added: '2026-08-24',
+  },
   {
     slug: 'raptor',
     name: 'Raptor — Cutaway',
@@ -56,7 +70,6 @@ export const STUDIES: readonly Study[] = [
     weight: '151 KB gzip',
     stack: ['three.js', 'TypeScript', 'Vite', 'Zero assets'],
     technique: ['Surface of revolution', 'Exploded layers', 'Animated burn', 'Shock diamonds'],
-    tier: 'free',
     prompt: null,
     added: '2026-08-24',
   },
@@ -71,7 +84,6 @@ export const STUDIES: readonly Study[] = [
     weight: '142 KB gzip',
     stack: ['three.js', 'TypeScript', 'Vite', 'Zero assets'],
     technique: ['Procedural geometry', 'Slider-crank kinematics', 'Ghosted layers'],
-    tier: 'free',
     prompt: null,
     added: '2026-08-22',
   },
@@ -86,7 +98,6 @@ export const STUDIES: readonly Study[] = [
     weight: '2 KB gzip + 19 MB frames',
     stack: ['Vanilla JS', 'Canvas 2D', 'Frame sequence'],
     technique: ['Scroll-scrubbed frames', 'Probe loader', 'Video fallback'],
-    tier: 'premium',
     prompt: null,
     added: '2026-08-15',
   },
@@ -101,7 +112,6 @@ export const STUDIES: readonly Study[] = [
     weight: '62 KB gzip + 768 KB frames',
     stack: ['React 19', 'TypeScript', 'Tailwind 4', 'No animation library'],
     technique: ['Frame-addressed scrub', 'Mirrored sequence', 'Self-hosted assets'],
-    tier: 'premium',
     prompt: null,
     added: '2026-08-10',
   },
@@ -116,7 +126,6 @@ export const STUDIES: readonly Study[] = [
     weight: '148 KB gzip',
     stack: ['React 19', 'TypeScript', 'GSAP', 'Tailwind 4'],
     technique: ['Cursor-scrubbed video', 'Scroll panel', 'mix-blend-mode'],
-    tier: 'premium',
     prompt: null,
     added: '2026-07-28',
   },
@@ -131,7 +140,6 @@ export const STUDIES: readonly Study[] = [
     weight: '108 KB gzip',
     stack: ['React 19', 'GSAP', 'ScrollTrigger', 'Tailwind 4'],
     technique: ['Cursor lens', 'Registered reveal', 'Parallax'],
-    tier: 'premium',
     prompt: '/prompts/comicraft.md',
     added: '2026-07-27',
   },
@@ -146,7 +154,6 @@ export const STUDIES: readonly Study[] = [
     weight: '5.9 KB gzip',
     stack: ['Vanilla HTML', 'CSS masks', 'No framework'],
     technique: ['Mask spotlight', 'CSS-only splash', 'Word reveal'],
-    tier: 'free',
     prompt: null,
     added: '2026-07-27',
   },

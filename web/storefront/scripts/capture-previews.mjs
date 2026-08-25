@@ -31,6 +31,7 @@ const SHOTS = [
   { slug: 'aeris', url: 'http://localhost:5304/', mouse: [1180, 450] },
   { slug: 'lucifer', url: 'http://localhost:5305/', mouse: [720, 420] },
   { slug: 'v8', url: 'http://localhost:5306/', mouse: [720, 450] },
+  { slug: 'deep-sea-jellybot', url: 'http://localhost:5308/', mouse: [720, 450] },
 ]
 
 const { default: puppeteer } = await import('puppeteer-core')

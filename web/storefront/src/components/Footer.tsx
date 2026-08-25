@@ -14,9 +14,6 @@ export default function Footer() {
           <a href="#studies" className="transition-colors hover:text-paper">
             Studies
           </a>
-          <a href="#pricing" className="transition-colors hover:text-paper">
-            Pricing
-          </a>
           <a href={`mailto:${SITE.email}`} className="transition-colors hover:text-paper">
             {SITE.email}
           </a>

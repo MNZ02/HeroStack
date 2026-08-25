@@ -2,7 +2,7 @@
   "name": "herostack",
   "private": true,
   "version": "0.0.0",
-  "description": "Motion-led hero sections that ship. Each study is its own workspace under web/, sold through the storefront.",
+  "description": "Motion-led hero sections that ship. Each study is its own workspace under web/, showcased through the storefront.",
   "workspaces": [
     "web/*",
     "packages/*"

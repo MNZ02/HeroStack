@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23e9e5d6'/><path d='M3 10a5 5 0 0 1 10 0v2H3z' fill='%2326251d'/><rect x='7' y='2' width='2' height='4' fill='%23c2312b'/></svg>" />
+  <title>ROBOTIC JELLYFISH SIMULATOR &middot; ABYSSAL MEDUSA MK-II</title>
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="title"><em>ROBOTIC JELLYFISH</em> SIMULATOR</div>
+      <div class="leds">
+        <i></i><i></i><i></i><i class="r"></i><i></i><i></i><i></i><i></i><i class="r"></i><i></i><i></i><i></i>
+      </div>
+      <div class="tb-item">SYS <b id="tb-sys">NOMINAL</b></div>
+      <div class="spacer"></div>
+      <div class="tb-item">MODEL <b>JX-7b</b></div>
+      <div class="tb-item">UTC <b id="tb-clock">--:--:--</b></div>
+      <div class="tb-item" id="tb-coord">N 06&deg;44.21' &middot; W 121&deg;02.77'</div>
+      <div class="tb-item">REV <b>2.4.1</b></div>
+    </header>
+
+    <div id="main">
+      <div class="col col-left">
+        <div class="panel">
+          <h2>HULL MICROSTRAIN // SCOPE</h2>
+          <canvas id="cv-scope" class="chart" style="height:62px"></canvas>
+        </div>
+        <div class="panel">
+          <h2>MORPHOLOGY // DEFORM MODES</h2>
+          <canvas id="cv-morph" class="chart" style="height:156px"></canvas>
+        </div>
+        <div class="panel">
+          <h2>ACTUATOR LOAD // 12&times;</h2>
+          <canvas id="cv-bars" class="chart" style="height:82px"></canvas>
+        </div>
+        <div class="panel">
+          <h2>NANOLATTICE SPEC</h2>
+          <div class="spec">
+            LATTICE ..... GRAPHENE&ndash;BN<br />
+            CELL PITCH .. 40 nm<br />
+            WALL ........ 3.1 nm<br />
+            DENSITY ..... 0.86 g/cm&sup3;<br />
+            YIELD ....... 520 MPa<br />
+            OP DEPTH .... 11,000 m
+          </div>
+        </div>
+      </div>
+
+      <div id="viewport">
+        <canvas id="scene"></canvas>
+        <canvas id="overlay"></canvas>
+        <div id="vp-cam">CAM-01 // ORBITAL INSPECTION</div>
+        <div id="vp-tag">
+          <b>SWARM BEHAVIOR</b>
+          <span>SOLO SORTIE &mdash; UNIT MEDUSA-02</span>
+          <span id="vp-coord">FIX N 06&deg;44.21' &middot; W 121&deg;02.77'</span>
+        </div>
+        <div id="vp-time">T+00:00:00</div>
+      </div>
+
+      <div class="col col-right">
+        <div class="panel">
+          <h2>DEPTH // BATHYMETER</h2>
+          <canvas id="cv-gauge" class="chart" style="height:164px"></canvas>
+        </div>
+        <div class="panel">
+          <h2>TELEMETRY</h2>
+          <table>
+            <tr><td>PRESSURE</td><td id="t-mpa">--</td></tr>
+            <tr><td>EXT TEMP</td><td id="t-temp">--</td></tr>
+            <tr><td>SALINITY</td><td id="t-sal">--</td></tr>
+            <tr><td>BALLAST</td><td id="t-bal">--</td></tr>
+            <tr><td>PUMP DUTY</td><td id="t-pump">--</td></tr>
+            <tr><td>PWR BUS</td><td id="t-pwr">--</td></tr>
+            <tr><td>UPLINK</td><td id="t-link">--</td></tr>
+            <tr><td>YIELD MARGIN</td><td id="t-margin">--</td></tr>
+            <tr><td>ZONE</td><td id="t-zone">--</td></tr>
+          </table>
+        </div>
+        <div class="panel">
+          <h2>DEPTH PROFILE // 120 s</h2>
+          <canvas id="cv-hist" class="chart" style="height:70px"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <footer id="botbar">
+      <div class="tb-item">MODE <b id="bb-mode">STATION-KEEPING</b></div>
+      <div class="tb-item">STRESS <b id="bb-stress">-- MPa</b> <span id="bb-strain">&middot; -- µε</span></div>
+      <div class="spacer"></div>
+      <button data-comp="dome">Neural Dome</button>
+      <button data-comp="spine">Utility Spine</button>
+      <button data-comp="limb">Propulsor Limb</button>
+      <button id="btn-explode">Exploded View</button>
+      <button id="btn-autocam" class="active">Auto-Cam</button>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

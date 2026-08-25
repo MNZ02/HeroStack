@@ -4,7 +4,6 @@ import { SITE } from '../site'
 const LINKS = [
   { label: 'Studies', href: '#studies' },
   { label: 'How it works', href: '#how' },
-  { label: 'Pricing', href: '#pricing' },
 ]
 
 export default function Header() {
@@ -47,10 +46,10 @@ export default function Header() {
         </nav>
 
         <a
-          href="#pricing"
+          href="#studies"
           className="rounded-full bg-paper px-4 py-2 text-[13px] font-600 text-ink transition-opacity hover:opacity-80 sm:px-5"
         >
-          Get the archive
+          Browse studies
         </a>
       </div>
     </header>

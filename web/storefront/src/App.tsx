@@ -2,18 +2,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import HowItWorks from './components/HowItWorks'
-import Pricing from './components/Pricing'
 import Footer from './components/Footer'
 import StudyCard from './components/StudyCard'
 import StudyModal from './components/StudyModal'
 import { CATEGORIES, STUDIES } from './data/studies'
 import { Analytics } from '@vercel/analytics/react'
 
-const TIERS = ['All', 'Free', 'Premium'] as const
-
 export default function App() {
   const [category, setCategory] = useState('All')
-  const [tier, setTier] = useState<(typeof TIERS)[number]>('All')
 
   // The open study lives in the URL, so a card is linkable and the back button
   // closes the panel instead of leaving the page.
@@ -43,11 +39,9 @@ export default function App() {
   const visible = useMemo(
     () =>
       STUDIES.filter(
-        (study) =>
-          (category === 'All' || study.category === category) &&
-          (tier === 'All' || study.tier === tier.toLowerCase()),
+        (study) => category === 'All' || study.category === category,
       ),
-    [category, tier],
+    [category],
   )
 
   const study = useMemo(
@@ -63,40 +57,21 @@ export default function App() {
 
         <section id="studies" className="px-5 pb-24 sm:px-8 sm:pb-32">
           <div className="mx-auto max-w-[1400px]">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5">
-              <div className="flex flex-wrap gap-1.5">
-                {CATEGORIES.map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => setCategory(item)}
-                    className={`cursor-pointer rounded-full px-4 py-2 text-[13px] font-500 transition-colors ${
-                      category === item
-                        ? 'bg-paper text-ink'
-                        : 'border border-line text-muted hover:text-paper'
-                    }`}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex gap-1.5">
-                {TIERS.map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => setTier(item)}
-                    className={`cursor-pointer rounded-full px-4 py-2 text-[13px] font-500 transition-colors ${
-                      tier === item
-                        ? 'border border-muted text-paper'
-                        : 'border border-line text-muted hover:text-paper'
-                    }`}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
+            <div className="flex flex-wrap items-center justify-start gap-1.5 border-b border-line pb-5">
+              {CATEGORIES.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setCategory(item)}
+                  className={`cursor-pointer rounded-full px-4 py-2 text-[13px] font-500 transition-colors ${
+                    category === item
+                      ? 'bg-paper text-ink'
+                      : 'border border-line text-muted hover:text-paper'
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
             </div>
 
             {visible.length > 0 ? (
@@ -107,14 +82,13 @@ export default function App() {
               </div>
             ) : (
               <p className="mt-16 text-center text-[15px] text-muted">
-                Nothing in that combination yet.
+                Nothing in that category yet.
               </p>
             )}
           </div>
         </section>
 
         <HowItWorks />
-        <Pricing />
       </main>
       <Footer />
 

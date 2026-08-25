@@ -1,8 +1,8 @@
 # storefront
 
-The shop window. Browses every hero study in `web/`, previews it, and hands it
+The showcase. Browses every hero study in `web/`, previews it, and hands it
 over. This is the only workspace here that isn't a study — everything else in
-`web/` is product, this is the thing that sells it.
+`web/` is product, this is the thing that showcases it.
 
 ```bash
 npm run dev --workspace=storefront
@@ -16,8 +16,8 @@ Two files, and nothing else needs editing to change what the site says:
 
 | File | Holds |
 | --- | --- |
-| `src/data/studies.ts` | Every study — copy, stack, weight, tier, preview path |
-| `src/site.ts` | Brand name, blurb, contact, pricing tiers |
+| `src/data/studies.ts` | Every study — copy, stack, weight, preview path |
+| `src/site.ts` | Brand name, blurb, contact |
 
 `HEROSTACK` is the brand, and it lives in `site.ts` alone — change it there and
 it changes everywhere.
@@ -114,11 +114,9 @@ made this worth pinning.
 Change a port and you have to change it in two places: that workspace's
 `package.json` and `DEV_PORTS`. They only answer while `npm run dev` is up.
 
-## What is deliberately not wired
+## Requests
 
-**Checkout.** Every pricing and study CTA opens a `mailto:`. No payment
-processor, no card fields, nothing that pretends to take money. That is a
-single change in `site.ts` once a real processor exists.
+Study requests open a `mailto:` link.
 
 ## Deep links
 

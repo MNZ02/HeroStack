@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%230e1013'/><rect x='2' y='2' width='4' height='4' fill='%23e8402a'/><rect x='6' y='2' width='4' height='4' fill='%23f2f4f6'/><rect x='10' y='2' width='4' height='4' fill='%23f0b429'/><rect x='2' y='6' width='4' height='4' fill='%232fb673'/><rect x='6' y='6' width='4' height='4' fill='%23f0b429'/><rect x='10' y='6' width='4' height='4' fill='%23e8402a'/><rect x='2' y='10' width='4' height='4' fill='%23f2f4f6'/><rect x='6' y='10' width='4' height='4' fill='%232b7fe0'/><rect x='10' y='10' width='4' height='4' fill='%232fb673'/></svg>" />
+  <title>CUBE ENGINE &middot; 3&times;3 AUTOPLAY</title>
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="title"><em>CUBE</em> ENGINE</div>
+      <div class="leds"><i></i><i></i><i class="a"></i><i></i><i></i><i></i><i class="a"></i><i></i><i></i></div>
+      <div class="tb-item">STATE <b id="tb-state">SOLVED</b></div>
+      <div class="spacer"></div>
+      <div class="tb-item">GROUP <b>3&times;3&times;3</b></div>
+      <div class="tb-item">TURNS <b id="tb-turns">0</b></div>
+      <div class="tb-item">TPS <b id="tb-tps">0.0</b></div>
+      <div class="tb-item">UPTIME <b id="tb-clock">00:00</b></div>
+    </header>
+
+    <div id="main">
+      <div class="col col-left">
+        <div class="panel">
+          <h2>ROUTINE</h2>
+          <div class="phase">
+            <div class="phase-name" id="ph-name">IDLE</div>
+            <div class="phase-note" id="ph-note">waiting for autoplay</div>
+            <div class="bar"><i id="ph-bar"></i></div>
+          </div>
+        </div>
+        <div class="panel grow">
+          <h2>QUEUE // NEXT 24</h2>
+          <div class="queue" id="queue"></div>
+        </div>
+        <div class="panel">
+          <h2>TURN LOG</h2>
+          <div class="log" id="log"></div>
+        </div>
+      </div>
+
+      <div id="viewport">
+        <canvas id="scene"></canvas>
+        <div id="vp-move"><b id="vp-move-n">&mdash;</b><span id="vp-move-l">idle</span></div>
+        <div id="vp-hint">drag to orbit &middot; scroll to zoom &middot; space to pause</div>
+      </div>
+
+      <div class="col col-right">
+        <div class="panel">
+          <h2>FACELET MAP // UNFOLDED</h2>
+          <canvas id="cv-net" class="chart" style="height:186px"></canvas>
+        </div>
+        <div class="panel">
+          <h2>PLATE ARTWORK</h2>
+          <div class="legend" id="legend"></div>
+        </div>
+        <div class="panel grow">
+          <h2>METRICS</h2>
+          <table>
+            <tr><td>ROUTINE</td><td id="t-routine">--</td></tr>
+            <tr><td>MOVES LEFT</td><td id="t-left">--</td></tr>
+            <tr><td>CORRECT FACELETS</td><td id="t-correct">--</td></tr>
+            <tr><td>SOLVED FACES</td><td id="t-faces">--</td></tr>
+            <tr><td>TURN TIME</td><td id="t-turn">--</td></tr>
+            <tr><td>SCRAMBLE DEPTH</td><td id="t-depth">--</td></tr>
+            <tr><td>CYCLES</td><td id="t-cycles">--</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <footer id="botbar">
+      <button id="btn-auto" class="active">Autoplay</button>
+      <button id="btn-scramble">Scramble</button>
+      <button id="btn-retrace">Retrace</button>
+      <button id="btn-pattern">Pattern</button>
+      <button id="btn-reset">Reset Cube</button>
+      <div class="spacer"></div>
+      <label class="slider">SPEED <input id="in-speed" type="range" min="0.35" max="3" step="0.05" value="1.15" /><b id="lb-speed">1.15&times;</b></label>
+      <button id="btn-cam" class="active">Auto-Cam</button>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

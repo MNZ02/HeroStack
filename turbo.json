@@ -1,6 +1,10 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  // One slot per persistent `dev` task, plus headroom: turbo refuses to start
+  // if concurrency is not greater than the number of persistent tasks, and
+  // every workspace under web/ contributes one.
+  "concurrency": "20",
   "globalDependencies": [".nvmrc"],
   "tasks": {
     "build": {

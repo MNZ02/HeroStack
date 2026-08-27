@@ -1,0 +1,22 @@
+{
+  "name": "rubiks",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Cube Engine — a 3×3 Rubik's cube in three.js that scrambles, retraces and plays canned patterns on its own, every facelet a procedurally drawn plate.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5310 --strictPort",
+    "build": "vite build",
+    "lint": "oxlint",
+    "test": "node scripts/cube-test.mjs",
+    "preview": "vite preview --port 5410 --strictPort",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "oxlint": "^1.71.0",
+    "vite": "^8.1.1"
+  }
+}

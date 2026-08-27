@@ -38,12 +38,27 @@ const DEV_PORTS: Record<string, number> = {
   lucifer: 5305,
   v8: 5306,
   'deep-sea-jellybot': 5308,
+  rubiks: 5310,
 }
 
 export const demoUrl = (slug: string) =>
   import.meta.env.DEV ? `http://localhost:${DEV_PORTS[slug]}/` : `/studies/${slug}/`
 
 export const STUDIES: readonly Study[] = [
+  {
+    slug: 'rubiks',
+    name: 'Cube Engine — Autoplay',
+    category: 'Interactive',
+    tagline: 'A 3×3 that scrambles, retraces and runs the classic patterns on its own, forever.',
+    about:
+      "A Rubik's cube built as a machine rather than a puzzle: 26 cubies on a lattice, and a turn engine that re-parents a layer onto a pivot, spins it with an overshoot ease and bakes the matrix back with an exact snap, so a thousand turns leave no drift. It plays itself in a four-beat loop — scramble, retrace, pattern, restore — cycling checkerboard, cube-in-a-cube, six spots, tetris, anaconda and the 20-move superflip. Every one of the 54 facelets is its own canvas plate with a per-face motif and its own serial, so a turn visibly shuffles pieces, not just blocks of colour. The HUD's unfolded facelet map is read back off the real transforms, so it cannot disagree with the geometry.",
+    preview: '/previews/rubiks.jpg',
+    weight: '148 KB gzip',
+    stack: ['three.js', 'Vanilla JS', 'Vite', 'Zero assets'],
+    technique: ['Pivot-bake turn engine', 'Procedural facelet plates', 'Transform-read state', 'Autoplay director'],
+    prompt: null,
+    added: '2026-08-27',
+  },
   {
     slug: 'deep-sea-jellybot',
     name: 'Abyssal Medusa — Sim',

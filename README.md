@@ -14,6 +14,7 @@ web/
   v8/            V8 Cutaway — three.js engine you can strip layer by layer
   raptor/        Raptor Cutaway — a SpaceX Raptor engine you strip to the burning chamber
   deep-sea-jellybot/ Abyssal Medusa — a robotic jellyfish in a blueprint mission console
+  rubiks/           Cube Engine — a 3×3 Rubik's cube that scrambles and solves itself, forever
 packages/        shared code, once two projects actually need the same thing
 ```
 
@@ -45,6 +46,7 @@ something predictable to point at — **the shop is on 5300**, not Vite's defaul
 | `v8` | 5306 | 5406 |
 | `raptor` | 5307 | 5407 |
 | `deep-sea-jellybot` | 5308 | 5408 |
+| `rubiks` | 5310 | 5410 |
 
 To work on one project, filter it:
 
@@ -137,6 +139,23 @@ neural dome, utility spine, propulsor limb — and the dome peels further into
 mast, membrane, guts and plates, each with a dedicated camera focus. Tentacles
 are two instanced meshes (struts + node dots) rewritten per frame as beaded
 kinematic chains; per-limb sway velocity doubles as the actuator-load telemetry.
+
+### `web/rubiks`
+
+Cube Engine. A 3×3 Rubik's cube that plays itself — scramble, retrace, pattern,
+restore, on a loop — inside a dark instrument console. A turn re-parents the
+nine cubies of a layer onto a pivot, spins it with an overshoot ease and bakes
+the matrix back with an exact snap to the lattice, so thousands of turns leave
+zero drift. There is no shadow permutation array: the unfolded facelet map, the
+solved-face count and the solved check are all read back off the real
+transforms.
+
+Each of the 54 facelets is its own 256² canvas plate — grid, halftone, circuit,
+waves, sunburst, rings — with its own serial, so a turn shuffles visibly
+distinct pieces rather than blocks of colour. Its `README.md` covers the bake
+and snap, and is straight about the solve being a *retrace* of the scramble
+rather than a search. `npm run test --workspace=rubiks` exercises the engine
+headlessly, three.js in node with the canvas stubbed.
 
 ## Conventions
 

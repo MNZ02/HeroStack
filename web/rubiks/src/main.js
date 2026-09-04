@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import './style.css'
-import { Cube, formatMove } from './cube.js'
+import { Cube, FACE_LETTERS, formatMove, invertMove, parseAlgStrict } from './cube.js'
 import { Studio } from './studio.js'
 import { Director, SCRAMBLE_DEPTH } from './autoplay.js'
 import { NetMap, buildLegend, drawQueue } from './hud.js'
@@ -53,7 +53,7 @@ const ui = {
   state: el('tb-state'), turns: el('tb-turns'), tps: el('tb-tps'), clock: el('tb-clock'),
   phName: el('ph-name'), phNote: el('ph-note'), phBar: el('ph-bar'),
   queue: el('queue'), log: el('log'),
-  moveN: el('vp-move-n'), moveL: el('vp-move-l'),
+  moveN: el('vp-move-n'), moveL: el('vp-move-l'), mode: el('pb-mode'),
   routine: el('t-routine'), left: el('t-left'), correct: el('t-correct'),
   faces: el('t-faces'), turn: el('t-turn'), depth: el('t-depth'), cycles: el('t-cycles'),
 }
@@ -66,6 +66,7 @@ btnAuto.onclick = () => {
   director.enabled = !director.enabled
   btnAuto.classList.toggle('active', director.enabled)
   if (director.enabled) director.rest = 0.15
+  else dismissTakeover() // found the controls — the invite has done its job
 }
 el('btn-scramble').onclick = () => director.scrambleNow()
 el('btn-retrace').onclick = () => director.retraceNow()
@@ -73,7 +74,9 @@ el('btn-pattern').onclick = () => director.patternNow()
 el('btn-reset').onclick = () => {
   cube.reset()
   director.queue = []
+  director.manualQueue = []
   director.history = []
+  played.length = 0
   director.beat = 'scramble'
   director.rest = 1.2
   director.phase = { label: 'RESET', note: 'cube returned to solved', total: 0, done: 0 }
@@ -94,15 +97,84 @@ speedInput.oninput = () => {
 el('lb-speed').textContent = `${state.speed.toFixed(2)}×`
 
 addEventListener('keydown', (e) => {
-  if (e.code === 'Space') { e.preventDefault(); btnAuto.click() }
-  if (e.key === 's') el('btn-scramble').click()
-  if (e.key === 'r') el('btn-retrace').click()
-  if (e.key === 'p') el('btn-pattern').click()
+  const t = e.target
+  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return
+  if (e.ctrlKey || e.metaKey) return
+  if (e.code === 'Space') { e.preventDefault(); btnAuto.click(); return }
+  // Face keys turn the cube: plain is clockwise, shift adds the prime.
+  // (`r` used to mean retrace — it is a face now, so retrace moved to `t`.)
+  const k = e.key.length === 1 ? e.key.toUpperCase() : ''
+  if (k && FACE_LETTERS.includes(k)) { playManual({ face: k, amount: e.shiftKey ? -1 : 1 }); return }
+  if (e.key === 's' || e.key === 'S') el('btn-scramble').click()
+  else if (e.key === 't' || e.key === 'T') el('btn-retrace').click()
+  else if (e.key === 'p' || e.key === 'P') el('btn-pattern').click()
+  else if (e.key === 'z' || e.key === 'Z') el('btn-undo').click()
 })
+
+// ── Manual play ─────────────────────────────────────────────────────────────
+/** Queue user moves: takes over from autoplay and syncs its button. */
+function playManual(moves) {
+  const queued = director.manual(moves)
+  if (queued.length) {
+    btnAuto.classList.toggle('active', director.enabled)
+    dismissTakeover()
+  }
+  return queued
+}
+
+let takeoverShown = true
+function dismissTakeover() {
+  if (!takeoverShown) return
+  takeoverShown = false
+  el('vp-takeover').classList.add('hide')
+}
+
+const SUFFIXES = [
+  { suffix: '', amount: 1, label: (f) => f },
+  { suffix: "'", amount: -1, label: (f) => `${f}'` },
+  { suffix: '2', amount: 2, label: (f) => `${f}2` },
+]
+const pad = el('pad')
+for (const face of FACE_LETTERS) {
+  const group = document.createElement('div')
+  group.className = 'pad-group'
+  group.dataset.face = face
+  for (const s of SUFFIXES) {
+    const b = document.createElement('button')
+    b.textContent = s.label(face)
+    b.title = `${s.label(face)} — turn ${face}${s.suffix === "'" ? ' counter-clockwise' : s.suffix === '2' ? ' twice' : ' clockwise'}`
+    b.onclick = () => playManual({ face, amount: s.amount })
+    group.append(b)
+  }
+  pad.append(group)
+}
+
+const algInput = el('in-alg')
+function submitAlg() {
+  const moves = parseAlgStrict(algInput.value)
+  if (!moves.length) {
+    algInput.classList.add('bad')
+    setTimeout(() => algInput.classList.remove('bad'), 600)
+    return
+  }
+  playManual(moves)
+  algInput.value = ''
+  algInput.blur()
+}
+el('btn-alg').onclick = submitAlg
+algInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') submitAlg()
+  else if (e.key === 'Escape') algInput.blur()
+})
+el('btn-undo').onclick = () => {
+  const last = played.pop()
+  if (last) playManual(invertMove(last))
+}
 
 // ── Turn bookkeeping ────────────────────────────────────────────────────────
 const recent = [] // completion timestamps, for the turns-per-second readout
 const logLines = []
+const played = [] // settled moves, newest last — the undo stack
 
 function onSettled(move) {
   const facelets = cube.readFacelets()
@@ -110,6 +182,8 @@ function onSettled(move) {
   net.draw(facelets)
 
   if (move) {
+    played.push(move)
+    if (played.length > 400) played.splice(0, played.length - 400)
     recent.push(performance.now())
     logLines.unshift(`${String(cube.turns).padStart(3, '0')} <b>${formatMove(move)}</b> · ${score.correct}/54`)
     logLines.length = Math.min(logLines.length, 9)
@@ -178,13 +252,17 @@ function paintHud(now, duration) {
   const secs = ((now - started) / 1000) | 0
   ui.clock.textContent = `${String((secs / 60) | 0).padStart(2, '0')}:${String(secs % 60).padStart(2, '0')}`
 
+  if (p.label === 'MANUAL') { ui.mode.textContent = 'YOU PLAY'; ui.mode.dataset.s = 'manual' }
+  else if (director.enabled) { ui.mode.textContent = 'AUTOPLAY'; ui.mode.dataset.s = 'auto' }
+  else { ui.mode.textContent = 'HELD'; ui.mode.dataset.s = 'held' }
+
   ui.routine.textContent = p.label.replace('PATTERN · ', '')
-  ui.left.textContent = String(director.queue.length)
+  ui.left.textContent = String(director.queue.length + director.manualQueue.length)
   ui.turn.textContent = `${(duration * 1000) | 0} ms`
   ui.depth.textContent = `${SCRAMBLE_DEPTH} moves`
   ui.cycles.textContent = String(director.cycles)
 
-  if (!cube.busy && director.queue.length === 0) {
+  if (!cube.busy && director.idle) {
     ui.moveN.textContent = '—'
     ui.moveL.textContent = director.enabled ? 'holding' : 'paused'
   }

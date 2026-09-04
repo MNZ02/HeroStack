@@ -30,7 +30,7 @@ body {
 #app {
   position: fixed; inset: 0;
   display: grid;
-  grid-template-rows: 34px 1fr 42px;
+  grid-template-rows: 34px 1fr auto 42px;
   gap: 8px;
   padding: 8px;
 }
@@ -41,6 +41,38 @@ body {
   background: var(--panel);
   padding: 0 12px;
 }
+
+/* Manual play bar — always visible, including narrow layouts where .col hides */
+#playbar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 6px 12px;
+}
+.pb-label { font-size: 9px; letter-spacing: 0.2em; color: var(--accent); font-weight: 700; }
+#pb-mode {
+  font-size: 8px; letter-spacing: 0.18em; white-space: nowrap;
+  padding: 3px 7px; border: 1px solid var(--line); color: var(--ink2);
+}
+#pb-mode[data-s='auto'] { color: var(--accent); border-color: var(--accent); animation: modepulse 1.6s ease-in-out infinite; }
+#pb-mode[data-s='manual'] { color: #0b0d10; background: var(--accent); border-color: var(--accent); animation: none; }
+@keyframes modepulse { 50% { opacity: 0.45; } }
+#pad { display: flex; gap: 8px; flex-wrap: wrap; }
+#pad button { color: var(--ink); }
+.pad-group { display: flex; gap: 3px; border-top: 2px solid var(--fc, var(--line)); padding-top: 4px; }
+.pad-group[data-face='U'] { --fc: var(--u); }
+.pad-group[data-face='D'] { --fc: var(--d); }
+.pad-group[data-face='F'] { --fc: var(--f); }
+.pad-group[data-face='B'] { --fc: var(--b); }
+.pad-group[data-face='R'] { --fc: var(--r); }
+.pad-group[data-face='L'] { --fc: var(--l); }
+#in-alg {
+  font: inherit; font-size: 9px; letter-spacing: 0.08em;
+  color: var(--ink); background: #0b0d10;
+  border: 1px solid var(--line); padding: 6px 8px; width: 190px;
+}
+#in-alg:focus { outline: none; border-color: #38424c; }
+#in-alg.bad { border-color: var(--r); }
 
 .title { font-size: 11px; letter-spacing: 0.3em; font-weight: 700; white-space: nowrap; }
 .title em { color: var(--accent); font-style: normal; }
@@ -131,6 +163,25 @@ td:last-child { text-align: right; color: var(--ink); font-variant-numeric: tabu
   position: absolute; right: 12px; bottom: 10px;
   font-size: 8px; letter-spacing: 0.16em; color: var(--ink2);
   pointer-events: none;
+}
+
+/* One-time takeover invite — floats over the viewport, never blocks orbit. */
+#vp-takeover {
+  position: absolute; left: 50%; bottom: 34px; transform: translateX(-50%);
+  max-width: min(92%, 560px); text-align: center;
+  font-size: 9px; letter-spacing: 0.14em; line-height: 1.9; color: var(--ink);
+  background: rgba(11, 13, 16, 0.82);
+  border: 1px solid var(--accent);
+  padding: 7px 14px;
+  pointer-events: none;
+  animation: modepulse 1.6s ease-in-out infinite;
+  transition: opacity 0.5s ease;
+  white-space: nowrap;
+}
+#vp-takeover b { color: var(--accent); }
+#vp-takeover.hide { opacity: 0; animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  #vp-takeover, #pb-mode[data-s='auto'] { animation: none; }
 }
 
 button {

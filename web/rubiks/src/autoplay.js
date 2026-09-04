@@ -46,6 +46,7 @@ export function scramble(depth = SCRAMBLE_DEPTH) {
 export class Director {
   constructor() {
     this.queue = []
+    this.manualQueue = []
     this.history = []
     this.beat = 'scramble'
     this.rest = 0.9
@@ -57,12 +58,31 @@ export class Director {
   }
 
   get idle() {
-    return this.queue.length === 0
+    return this.queue.length === 0 && this.manualQueue.length === 0
   }
 
-  /** Moves still to play, as notation, for the HUD queue strip. */
+  /** Moves still to play, manual first, as notation, for the HUD queue strip. */
   preview(n = 24) {
-    return this.queue.slice(0, n).map(formatMove)
+    return [...this.manualQueue, ...this.queue].slice(0, n).map(formatMove)
+  }
+
+  /**
+   * Manual play: the user takes the cube. Holds the autoplay loop, drops
+   * any queued routine so the move plays next, and queues ahead of
+   * everything. Successive calls append, so fast clicking never loses a
+   * move. While a tracked routine is being recorded the move is appended
+   * to history too, so a later retrace still lands solved.
+   */
+  manual(moves) {
+    const list = (Array.isArray(moves) ? moves : [moves]).filter(
+      (m) => m && FACE_LETTERS.includes(m.face) && (m.amount === 1 || m.amount === -1 || m.amount === 2)
+    )
+    if (!list.length) return []
+    this.enabled = false
+    this.queue = []
+    this.manualQueue.push(...list)
+    this.phase = { label: 'MANUAL', note: 'you have the cube — autoplay held', total: 0, done: 0 }
+    return list
   }
 
   load(label, note, moves, { track = false } = {}) {
@@ -114,9 +134,18 @@ export class Director {
   tick(dt, cube, duration) {
     if (cube.busy) return null
 
+    if (this.manualQueue.length) {
+      const move = this.manualQueue.shift()
+      if (!cube.start(move, duration)) return null
+      if (this.tracking) this.history.push(move)
+      return move
+    }
+
     if (this.queue.length === 0) {
       if (!this.enabled) {
-        if (this.phase.label !== 'PAUSED') this.phase = { label: 'PAUSED', note: 'autoplay held', total: 0, done: 0 }
+        if (this.phase.label !== 'PAUSED' && this.phase.label !== 'MANUAL') {
+          this.phase = { label: 'PAUSED', note: 'autoplay held', total: 0, done: 0 }
+        }
         return null
       }
       this.rest -= dt

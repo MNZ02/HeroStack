@@ -19,8 +19,8 @@ globalThis.document = {
   createElement: () => ({ width: 256, height: 256, getContext: () => noopCtx }),
 }
 
-const { Cube, parseAlg, invertAlg } = await import('../src/cube.js')
-const { PATTERNS, scramble } = await import('../src/autoplay.js')
+const { Cube, parseAlg, parseAlgStrict, invertAlg, formatMove } = await import('../src/cube.js')
+const { PATTERNS, scramble, Director } = await import('../src/autoplay.js')
 
 const cube = new Cube()
 
@@ -103,6 +103,64 @@ check('no lattice drift', drift === 0, `max ${drift}`)
 run(scramble())
 cube.reset()
 check('reset() returns to solved', cube.score().solved)
+
+// 10. Strict parsing for the manual algorithm box.
+check('strict keeps legal tokens',
+  parseAlgStrict("R U R' U2").map(formatMove).join(' ') === "R U R' U2")
+check('strict drops junk tokens',
+  parseAlgStrict('R nonsense U2 F! B2x').map(formatMove).join(' ') === 'R U2')
+check('strict rejects bad suffixes', parseAlgStrict('U3 R0 F"').length === 0)
+check('strict handles empty input', parseAlgStrict('   ').length === 0)
+
+// 11. Manual takeover.
+const drain = (d) => {
+  let guard = 500
+  while ((!d.idle || cube.busy) && guard-- > 0) {
+    d.tick(1, cube, 0.01)
+    cube.update(1)
+  }
+  return guard > 0
+}
+
+const m1 = new Director()
+check('junk manual queues nothing', m1.manual({ face: 'X', amount: 1 }).length === 0)
+check('junk manual leaves autoplay armed', m1.enabled === true)
+m1.manual({ face: 'R', amount: 1 })
+m1.manual(parseAlgStrict("U'"))
+check('manual holds the loop', m1.enabled === false)
+check('rapid manual calls append', m1.preview(4).join(' ') === "R U'")
+check('manual phase labels the takeover', m1.phase.label === 'MANUAL')
+check('manual queue drains', drain(m1))
+check('R U\' leaves the cube disturbed', !cube.score().solved)
+run(invertAlg(parseAlg("R U'")))
+check('undoing the manual pair restores solved', cube.score().solved)
+
+// A tracked scramble interrupted by a manual move still retraces to solved.
+const m2 = new Director()
+m2.load('SCRAMBLE', 'test', scramble(), { track: true })
+for (let i = 0; i < 3; i++) { m2.tick(1, cube, 0.01); cube.update(1) }
+m2.manual({ face: 'R', amount: 1 })
+check('takeover drops the queued routine', m2.queue.length === 0)
+check('takeover keeps the partial history', m2.history.length === 3)
+check('takeover drains', drain(m2))
+check('manual was tracked', m2.history.length === 4)
+run(invertAlg(m2.history))
+check('retrace after manual lands solved', cube.score().solved)
+
+// Idle labels: MANUAL sticks while held, fresh directors report PAUSED.
+const m3 = new Director()
+m3.manual({ face: 'F', amount: 2 })
+drain(m3)
+run(parseAlg('F2'))
+m3.tick(1, cube, 0.01)
+check('MANUAL survives idle while held', m3.phase.label === 'MANUAL')
+check('fresh paused director reports PAUSED', (() => {
+  const d = new Director()
+  d.enabled = false
+  d.tick(1, cube, 0.01)
+  return d.phase.label === 'PAUSED'
+})())
+check('cube left solved', cube.score().solved)
 
 console.log(failures ? `\n${failures} FAILURES` : '\nall green')
 process.exit(failures ? 1 : 0)

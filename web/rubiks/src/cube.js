@@ -62,6 +62,24 @@ export function parseAlg(text) {
   return text.trim().split(/\s+/).filter(Boolean).map(parseMove)
 }
 
+/** Token is exactly a face plus an optional `'` or `2` suffix. */
+export function isMoveToken(token) {
+  return /^[UDLRFB](['2])?$/.test(token)
+}
+
+/**
+ * Parse an algorithm typed by a person, dropping anything that is not a
+ * legal token (`R U R' U2`). Never throws; an empty string yields [].
+ */
+export function parseAlgStrict(text) {
+  return String(text ?? '')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .filter(isMoveToken)
+    .map(parseMove)
+}
+
 /** Reverse order, invert each — the retrace of any sequence. */
 export function invertAlg(moves) {
   return moves.slice().reverse().map(invertMove)

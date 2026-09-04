@@ -12,6 +12,31 @@ npm run dev --workspace=rubiks    # http://localhost:5310
 straight to a routine, the speed slider runs 0.35× to 3×, and dragging orbits —
 auto-cam resumes two seconds after you let go.
 
+## Manual play
+
+The `PLAY` bar turns the cube by hand, and autoplay stays available:
+
+- Face pad: `U U' U2` through `B B' B2`, grouped and colour-coded per face.
+- Algorithm box: type `R U R' U'` and hit `Queue alg` (Enter). Anything that
+  is not a legal token is ignored; empty input flashes the box.
+- Keyboard: `U D L R F B` turn clockwise, `shift` adds the prime
+  (`Shift+R` is `R'` — press twice for a double), `z` undoes the last
+  settled turn. Typing in the algorithm box is never hijacked.
+- `Undo` inverts the last turn that actually landed.
+
+Any manual move takes over: it holds the autoplay loop (the `Autoplay`
+button goes dark — press it or space to resume) and drops the queued
+routine so your move plays next. The HUD panel reads `MANUAL` while you
+hold the cube. Moves made while a scramble or pattern is being recorded
+are tracked, so `Retrace` afterwards still lands solved.
+
+One shortcut moved to make room: the `r` key is the `R` face now, so
+retrace-by-keyboard is `t` (`s` scramble and `p` pattern are unchanged).
+
+While autoplay runs, a pulsing `AUTOPLAY` pill and a one-time hint over the
+viewport invite the takeover; both retire once you play, and the pill reads
+`YOU PLAY` while you hold the cube.
+
 ## The turn engine
 
 A turn re-parents the nine cubies of a layer onto a pivot group, spins the pivot,

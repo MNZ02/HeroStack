@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%230e1013'/><rect x='2' y='2' width='4' height='4' fill='%23e8402a'/><rect x='6' y='2' width='4' height='4' fill='%23f2f4f6'/><rect x='10' y='2' width='4' height='4' fill='%23f0b429'/><rect x='2' y='6' width='4' height='4' fill='%232fb673'/><rect x='6' y='6' width='4' height='4' fill='%23f0b429'/><rect x='10' y='6' width='4' height='4' fill='%23e8402a'/><rect x='2' y='10' width='4' height='4' fill='%23f2f4f6'/><rect x='6' y='10' width='4' height='4' fill='%232b7fe0'/><rect x='10' y='10' width='4' height='4' fill='%232fb673'/></svg>" />
-  <title>CUBE ENGINE &middot; 3&times;3 AUTOPLAY</title>
+  <title>CUBE ENGINE &middot; 3&times;3 AUTOPLAY + MANUAL</title>
 </head>
 <body>
   <div id="app">
@@ -42,7 +42,8 @@
       <div id="viewport">
         <canvas id="scene"></canvas>
         <div id="vp-move"><b id="vp-move-n">&mdash;</b><span id="vp-move-l">idle</span></div>
-        <div id="vp-hint">drag to orbit &middot; scroll to zoom &middot; space to pause</div>
+        <div id="vp-takeover">YOU CAN PLAY TOO — PRESS <b>U D L R F B</b> OR THE PAD BELOW · <b>SPACE</b> RESUMES AUTOPLAY</div>
+        <div id="vp-hint">drag to orbit &middot; scroll to zoom &middot; U D L R F B turn &middot; shift = &prime; &middot; space = autoplay</div>
       </div>
 
       <div class="col col-right">
@@ -67,6 +68,16 @@
           </table>
         </div>
       </div>
+    </div>
+
+    <div id="playbar">
+      <span class="pb-label">PLAY</span>
+      <span id="pb-mode" data-s="auto">AUTOPLAY</span>
+      <div id="pad"></div>
+      <div class="spacer"></div>
+      <input id="in-alg" placeholder="alg &middot; e.g. R U R&prime; U&prime;" spellcheck="false" autocomplete="off" aria-label="Queue an algorithm" />
+      <button id="btn-alg">Queue alg</button>
+      <button id="btn-undo">Undo</button>
     </div>
 
     <footer id="botbar">
